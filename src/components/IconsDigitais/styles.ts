@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 
 export const IconsDig = styled.img`
-  width: 60px;
   height: 60px;
   object-fit: contain; 
   

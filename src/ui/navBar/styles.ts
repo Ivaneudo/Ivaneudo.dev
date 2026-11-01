@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 
-// Precisamos tipar a prop isOpen para o Emotion
 interface NavListProps {
   isOpen: boolean;
 }
@@ -14,14 +13,13 @@ export const navDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  top: 10px; /* Um pequeno respiro no topo */
+  top: 10px; 
   z-index: 999;
   background-color: ${({ theme }) => theme.colors.background};
 
-  /* Ajustes para mobile */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: 1rem;
-    border-radius: 0; /* Menu ocupa toda a largura no topo */
+    border-radius: 0; 
     top: 0; 
     border-left: none;
     border-right: none;
@@ -30,7 +28,7 @@ export const navDiv = styled.div`
 `;
 
 export const HamburgerButton = styled.button`
-  display: none; /* Oculto no desktop */
+  display: none; 
   background: transparent;
   border: none;
   color: ${({ theme }) => theme.colors.bold};
@@ -39,7 +37,7 @@ export const HamburgerButton = styled.button`
   z-index: 1000;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    display: block; /* Visível no mobile */
+    display: block; 
   }
 `;
 
@@ -63,7 +61,6 @@ export const navList = styled.ul<NavListProps>`
     overflow: hidden;
     transition: max-height 0.3s ease, padding 0.3s ease;
     
-    /* Borda removida completamente para tirar o traço vermelho abaixo do menu */
     border-bottom: none; 
     border-radius: 0 0 20px 20px;
   }

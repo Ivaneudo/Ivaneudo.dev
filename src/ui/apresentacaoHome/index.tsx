@@ -1,12 +1,12 @@
 import { Icons } from "../../components/IconsDigitais"
 import { Cargo, Resumo, TextSpan } from "../../components/Text/styles"
-import { HomeDiv, StacksDiv } from "./styles"
+import { Avatar, HomeDiv, StacksDiv } from "./styles"
 import ivaneudoImg from "../../Img/ivaneudo.png"
 
 export const ApresentacaoHome = () => {
   return (
     <HomeDiv id="home">
-      <img src={ivaneudoImg} alt="" />
+      <Avatar src={ivaneudoImg} alt="" />
       <Cargo>Desenvolvedor <TextSpan>Full-Stack</TextSpan></Cargo>
       <Resumo>Engenheiro de Software Full-Stack focado em criar aplicações web escaláveis, APIs robustas e experiências digitais com impacto real.</Resumo>
       <StacksDiv>

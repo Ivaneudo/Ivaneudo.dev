@@ -12,7 +12,7 @@ export const userName = styled.h1 `
   font-family: ${({theme}) => theme.fonts.jetbrains};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 22px; /* Reduz drasticamente para o celular */
-    white-space: nowrap; /* Tenta forçar a ficar na mesma linha se houver espaço */
+    font-size: 22px; 
+    white-space: nowrap;
   }
 `;

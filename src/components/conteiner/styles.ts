@@ -30,13 +30,10 @@ export const Div = styled.div `
   gap: 2rem;
 `;
 
-// ./conteiner/styles.ts
-
 export const Projetos = styled.div `
   display: flex;
   padding: 1rem 2rem;
   gap: 2rem;
-  align-items: center; /* Alinha texto e imagem ao centro no desktop */
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     flex-direction: column; /* Coloca um em cima do outro no celular */

@@ -10,7 +10,7 @@ export const Cargo = styled.h1 `
   font-family: ${({theme}) => theme.fonts.jetbrains};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 26px; /* Ajuste para caber em uma linha, ou deixe quebrar de forma mais natural */
+    font-size: 26px; 
   }
 `;
 
@@ -37,12 +37,12 @@ export const Descricao = styled.p `
   font-size: ${({theme}) => theme.fontSizes.small};
   font-family: ${({theme}) => theme.fonts.arial};
   font-weight: bold;
-  text-align: left; /* Garante alinhamento à esquerda */
+  text-align: justify; 
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 15px; /* Tamanho confortável para leitura de textos longos no mobile */
+    font-size: 15px; 
     line-height: 1.5;
-    font-weight: normal; /* Em parágrafos pequenos, normal melhora a legibilidade */
+    font-weight: normal;
   }
 `;
 
@@ -50,7 +50,7 @@ export const TituloProjeto = styled.p `
   color: ${({theme}) => theme.colors.bold};
   font-size: ${({theme}) => theme.fontSizes.medium};
   font-family: ${({theme}) => theme.fonts.jetbrains};
-  text-align: left;
+  text-align: justify;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: 20px;
