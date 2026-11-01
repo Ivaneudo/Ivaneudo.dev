@@ -17,6 +17,10 @@ export const darkTheme = {
     h1: "38px",
     h2: "26px"
   },
+  breakpoints: {
+    mobile: '768px',
+    tablet: '1024px',
+  }
 }
 
 export const theme = darkTheme;
