@@ -36,7 +36,7 @@ export const navLink = styled.a<NavLinkProps>`
   align-items: center;
   gap: 1rem;
   height: 100%;
-  cursor: pointer; /* Garante que tenha a mãozinha de link */
+  cursor: pointer; 
 
   &:active {
     color: ${({ theme }) => theme.colors.bold};

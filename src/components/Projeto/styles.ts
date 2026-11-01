@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 
 export const TechContainer = styled.div`
   display: flex;
-  gap: 8px; /* Espaço entre os ícones das tecnologias */
+  gap: 8px; 
   margin: 10px 0;
-  color: white; /* ou a cor base que preferir */
+  color: white; 
 `;
 
 export const LinksContainer = styled.div`
   display: flex;
-  gap: 16px; /* Espaço entre o ícone do Github e do Link */
+  gap: 16px; 
   margin-top: 20px;
   
   a {
@@ -22,4 +22,14 @@ export const LinksContainer = styled.div`
 
 export const Img = styled.img `
   width: 900px;
+  border-radius: 10px; 
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    width: 100%;
+    max-width: 900px; /* Impede que fique gigante em telas super largas */
+    height: auto;
+    border-radius: 10px; /* Um leve arredondamento deixa o design mais polido */
+    object-fit: cover;
+    border-radius: 8px; /* Ajuste sutil para o celular */
+  }
 `;

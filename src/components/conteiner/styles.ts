@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const conteinerGlobal = styled.div `
-  width: 100vw;
+  width: 100%; /* Corrigido de 100vw */
   min-height: 100vh;
   margin: 0;
   padding: 1.5rem;
@@ -12,7 +12,7 @@ export const conteinerGlobal = styled.div `
 `;
 
 export const containerSection = styled.div `
-  width: 100vw;
+  width: 100%; /* Corrigido de 100vw */
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -33,7 +33,17 @@ export const Div = styled.div `
 export const Projetos = styled.div `
   display: flex;
   padding: 1rem 2rem;
-  gap: 1rem;
+  gap: 2rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex-direction: column; /* Coloca um em cima do outro no celular */
+    padding: 1rem;
+    gap: 1.5rem;
+    
+    /* Inverte a ordem: imagem aparece primeiro, texto depois */
+    div:nth-of-type(1) { order: 2; } /* Div de texto */
+    div:nth-of-type(2) { order: 1; } /* Div de imagem */
+  }
 `;
 
 export const Redes = styled.div `

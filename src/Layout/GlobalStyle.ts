@@ -25,19 +25,18 @@ export const GlobalStyle = css`
 
   ::-webkit-scrollbar-thumb {
     background-color: ${darkTheme.colors.bold};
-    border-radius: 20px 0 0 20px; /* Arredonda o lado esquerdo */
+    border-radius: 20px 0 0 20px;
     
-    /* Cria o recuo à esquerda (falso trapézio) */
     border-left: 6px solid transparent; 
     border-right: 0px solid transparent; 
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
     
-    background-clip: padding-box; /* Essencial para a borda transparente funcionar */
+    background-clip: padding-box;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #a30000; /* Tom mais escuro para hover */
+    background-color: #a30000; 
   }
 
   @-moz-document url-prefix() {

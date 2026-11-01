@@ -10,4 +10,9 @@ export const userName = styled.h1 `
   color: ${({theme}) => theme.colors.text};
   font-size: ${({theme}) => theme.fontSizes.h1};
   font-family: ${({theme}) => theme.fonts.jetbrains};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 22px; 
+    white-space: nowrap;
+  }
 `;

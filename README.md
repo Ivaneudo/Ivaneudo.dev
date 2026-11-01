@@ -1,10 +1,10 @@
-# Portfólio Pessoal (v1.0) 🚀
+# Portfólio Pessoal (v2.0) 🚀
 
-Bem-vindo ao repositório da primeira versão do meu portfólio profissional! Este projeto foi desenvolvido para apresentar meus projetos, habilidades e trajetórias na área de desenvolvimento de software.
+Bem-vindo ao repositório do meu portfólio profissional! Este projeto foi desenvolvido para apresentar meus projetos, habilidades e trajetórias na área de desenvolvimento de software.
 
 🔗 **Acesse o portfólio online:** [Portfolio](https://ivaneudo-portfolio.vercel.app/) 
 
-> ⚠️ **Nota da versão (v1.0):** Esta é a primeira versão do site e atualmente está **otimizada apenas para visualização no computador (desktop)**. A versão responsiva para dispositivos móveis está em desenvolvimento para as próximas atualizações!
+> 🎉 **Novidade na versão (v2.0):** O portfólio agora é totalmente responsivo, garantindo uma ótima experiência de navegação e usabilidade também em dispositivos móveis!
 
 ---
 
@@ -44,7 +44,7 @@ Entre na pasta do projeto:
 Instale as dependências:
 
 ```Bash
-  npm install --legacy-peer-deps
+  npm install 
   # ou
   yarn install
 ```
