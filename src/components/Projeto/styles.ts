@@ -21,5 +21,13 @@ export const LinksContainer = styled.div`
 `;
 
 export const Img = styled.img `
-  width: 900px;
+  width: 100%;
+  max-width: 900px; /* Impede que fique gigante em telas super largas */
+  height: auto;
+  border-radius: 10px; /* Um leve arredondamento deixa o design mais polido */
+  object-fit: cover;
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    border-radius: 8px; /* Ajuste sutil para o celular */
+  }
 `;

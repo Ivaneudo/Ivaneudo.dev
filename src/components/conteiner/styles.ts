@@ -30,10 +30,23 @@ export const Div = styled.div `
   gap: 2rem;
 `;
 
+// ./conteiner/styles.ts
+
 export const Projetos = styled.div `
   display: flex;
   padding: 1rem 2rem;
-  gap: 1rem;
+  gap: 2rem;
+  align-items: center; /* Alinha texto e imagem ao centro no desktop */
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex-direction: column; /* Coloca um em cima do outro no celular */
+    padding: 1rem;
+    gap: 1.5rem;
+    
+    /* Inverte a ordem: imagem aparece primeiro, texto depois */
+    div:nth-of-type(1) { order: 2; } /* Div de texto */
+    div:nth-of-type(2) { order: 1; } /* Div de imagem */
+  }
 `;
 
 export const Redes = styled.div `
