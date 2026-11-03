@@ -4,6 +4,13 @@ import { Icons } from "../components/IconsDigitais"
 import { Descricao, TextH2, TextSpan } from "../components/Text/styles"
 
 export const SobreMim = () => {
+
+  const REDES_DATA = [
+    { id: "instagram", alt: "instagram", src: "https://skillicons.dev/icons?i=instagram", href: "https://instagram.com/ivaneudo.dev/" },
+    { id: "linkedin", alt: "linkedin", src: "https://skillicons.dev/icons?i=linkedin", href: "https://linkedin.com/in/ivaneudo-carvalho/" },
+    { id: "github", alt: "github", src: "https://skillicons.dev/icons?i=github", href: "https://github.com/Ivaneudo" }
+  ]
+
   return (
     <S.Div id="sobre-mim">
       <TextH2>Sobre-mim</TextH2>
@@ -26,21 +33,14 @@ export const SobreMim = () => {
       <TextH2><TextSpan>Minhas redes sociais</TextSpan></TextH2>
       <Descricao>Para saber mais sobre mim, acesse as minhas redes sociais:</Descricao>
       <S.Redes>
-        <Icons 
-          src="https://skillicons.dev/icons?i=instagram" 
-          alt="instagrma"
-          href="https://instagram.com/ivaneudo.dev/" 
-        />
-        <Icons 
-          src="https://skillicons.dev/icons?i=linkedin" 
-          alt="linkedin"
-          href="https://linkedin.com/in/ivaneudo-carvalho/"
-        />
-        <Icons 
-          src="https://skillicons.dev/icons?i=github" 
-          alt="github"
-          href="https://github.com/Ivaneudo"
-        />
+        {REDES_DATA.map((rede) => (
+          <Icons 
+            key={rede.id} 
+            src={rede.src} 
+            alt={rede.alt} 
+            href={rede.href} 
+          />
+        ))}
       </S.Redes>
     </S.Div>
   )
