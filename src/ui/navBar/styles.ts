@@ -56,7 +56,7 @@ export const navList = styled.ul<NavListProps>`
     width: 100%;
     flex-direction: column;
     background-color: ${({ theme }) => theme.colors.background};
-    max-height: ${({ isOpen }) => (isOpen ? '300px' : '0')};
+    max-height: ${({ isOpen }) => (isOpen ? '500px' : '0')};
     padding: ${({ isOpen }) => (isOpen ? '2rem 0' : '0')};
     overflow: hidden;
     transition: max-height 0.3s ease, padding 0.3s ease;
@@ -64,4 +64,10 @@ export const navList = styled.ul<NavListProps>`
     border-bottom: none; 
     border-radius: 0 0 20px 20px;
   }
+`;
+
+export const SwitcherWrapper = styled.li`
+  list-style: none;
+  display: flex;
+  align-items: center;
 `;

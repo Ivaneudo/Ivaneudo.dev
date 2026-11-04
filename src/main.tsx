@@ -5,6 +5,7 @@ import { ThemeProvider } from '@emotion/react'
 import { theme } from './Layout/GlobalTheme'
 import { Global } from '@emotion/react'
 import { GlobalStyle } from './Layout/GlobalStyle'
+import './i18n'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
