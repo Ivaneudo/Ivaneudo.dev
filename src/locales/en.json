@@ -9,5 +9,24 @@
     "roleHighlight": "Full-Stack",
     "roleSuffix": " Developer",
     "summary": "Full-Stack Software Engineer focused on building scalable web applications, robust APIs, and digital experiences with real impact."
+  },
+  "projects": {
+    "title": "Projects",
+    "raizes": {
+      "alt": "Vera Criança movement website",
+      "summary": "Project conceived by me and the IT class of EEEP Joaquim Antônio Albano (2023-2025), where I led and managed two main actions: the development of the website for the Vera Criança Movement and a technology immersion for 9th-grade elementary school classes."
+    },
+    "limpo": {
+      "alt": "Limpo Serviços website",
+      "summary": "Institutional website developed to deepen studies in Angular, redesigning and improving the visual structure and experience of a service provider platform."
+    },
+    "ficaComigo": {
+      "alt": "Fica Comigo Application",
+      "summary": "Application developed during a Flash Hackathon in the Startup Management course, where I acted as the lead developer. The project's goal is to support people in psychological vulnerability through anxiety reduction strategies, contact with volunteers, and quick routing to emergency channels like CVV and SAMU."
+    },
+    "arch": {
+      "alt": "Hyprland Interface",
+      "summary": "Repository developed to help new users in the Arch world achieve a simple, beautiful, and functional system. The repository is also a way to recover the system in case of incidents."
+    }
   }
 }

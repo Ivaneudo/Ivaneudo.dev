@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { Div } from "../components/conteiner/styles"
 import { Projeto } from "../components/Projeto/index"
 import { TextH2 } from "../components/Text/styles"
@@ -7,100 +8,62 @@ import ficaComiog from "../Img/fica-comigo.png"
 import arch from "../Img/arch.png"
 
 export const Projetos = () => {
+  const { t } = useTranslation();
+
   return (
     <Div id="projetos">
-      <TextH2>Projetos</TextH2>
+      <TextH2>{t('projects.title')}</TextH2>
+      
       <Projeto 
         nome="Raizes Digitais"
         imagem={raizesDigitaisImg}
-        altImg="site do movimento vera criança"
-        resumo="Projeto idealizado por mim e pela turma de Informática da EEEP Joaquim Antônio Albano (2023-2025), onde liderei e gerenciei duas ações principais: o desenvolvimento do site para o Movimento Vera Criança e a realização de uma imersão no mundo da tecnologia para turmas do 9º ano do Ensino Fundamental."
+        altImg={t('projects.raizes.alt')}
+        resumo={t('projects.raizes.summary')}
         url="https://github.com/veracrianca/movimento"
         link="https://movimentoveracrianca.vercel.app/"
         tecnologias={[
-          <img 
-            src="https://skillicons.dev/icons?i=html" 
-            height="30" 
-            alt="html5"  
-          />,
-          <img 
-            src="https://skillicons.dev/icons?i=css" 
-            height="30" 
-            alt="css"  
-          />,
-          <img 
-            src="https://skillicons.dev/icons?i=js" 
-            height="30" 
-            alt="javascript"  
-          />,
+          <img key="html" src="https://skillicons.dev/icons?i=html" height="30" alt="html5" />,
+          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
+          <img key="js" src="https://skillicons.dev/icons?i=js" height="30" alt="javascript" />,
         ]}
       />
+      
       <Projeto 
         nome="Limpo Serviço"
         imagem={limpoImg}
-        altImg="site da Limpo Serviços"
-        resumo="Site institucional desenvolvido com o objetivo de aprofundar estudos na tecnologia Angular.js, redesenhando e aprimorando a estrutura e experiência visual de uma plataforma prestadora de serviços."
+        altImg={t('projects.limpo.alt')}
+        resumo={t('projects.limpo.summary')}
         url="https://github.com/Ivaneudo/Limpo"
         link="https://limpo.vercel.app/"
         tecnologias={[
-          <img 
-            src="https://skillicons.dev/icons?i=angular" 
-            height="30" 
-            alt="Angular"  
-          />,
-          <img 
-            src="https://skillicons.dev/icons?i=css" 
-            height="30" 
-            alt="css"  
-          />,
-          <img 
-            src="https://skillicons.dev/icons?i=ts" 
-            height="30" 
-            alt="typescript"  
-          />,
+          <img key="angular" src="https://skillicons.dev/icons?i=angular" height="30" alt="Angular" />,
+          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
+          <img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" />,
         ]}
       />
+      
       <Projeto 
         nome="Fica Comigo"
         imagem={ficaComiog}
-        altImg="Aplicativo do Fica Comigo"
-        resumo="Aplicativo desenvolvido durante um Hackathon Flash na disciplina de Gestão de Startups, no qual atuei como desenvolvedor principal. O objetivo do projeto é oferecer suporte a pessoas em situação de vulnerabilidade psicológica por meio de estratégias de redução de ansiedade, contato com voluntários e direcionamento rápido para canais de emergência como CVV e SAMU."
+        altImg={t('projects.ficaComigo.alt')}
+        resumo={t('projects.ficaComigo.summary')}
         url="https://github.com/Ivaneudo/fica-comigo"
         tecnologias={[
-          <img 
-            src="https://skillicons.dev/icons?i=react" 
-            height="30" 
-            alt="css"  
-          />,
-          <img 
-            src="https://skillicons.dev/icons?i=css" 
-            height="30" 
-            alt="css"  
-          />,
-          <img 
-            src="https://skillicons.dev/icons?i=ts" 
-            height="30" 
-            alt="typescript"  
-          />,
+          <img key="react" src="https://skillicons.dev/icons?i=react" height="30" alt="react" />,
+          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
+          <img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" />,
         ]}
       />
+      
       <Projeto 
         nome="Arch + Hyprland"
         imagem={arch}
-        altImg="Interface do Hyprland"
-        resumo="Repositório desenvolvimento para auxiliar novos usuários do mundo Arch a conseguir um sistemas simples, bonito e funcional. O repositório também é um meio de conseguir recuperar o sistema em casos de insidentes. "
+        altImg={t('projects.arch.alt')}
+        resumo={t('projects.arch.summary')}
         url="https://github.com/Ivaneudo/Arch-Hyprland"
         tecnologias={[
-          <img 
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" 
-            height="30" 
-            alt="Lua"  
-          />,
-          <img 
-            src="https://skillicons.dev/icons?i=css" 
-            height="30" 
-            alt="css"  
-          />,
+          <img key="lua" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" height="30" alt="Lua" />,
+          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
         ]}
       />
     </Div>
