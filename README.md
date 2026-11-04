@@ -4,7 +4,7 @@ Bem-vindo ao repositório do meu portfólio profissional! Este projeto foi desen
 
 🔗 **Acesse o portfólio online:** [Portfolio](https://ivaneudo-portfolio.vercel.app/) 
 
-> 🎉 **Novidade na versão (v2.0):** O portfólio agora é totalmente responsivo, garantindo uma ótima experiência de navegação e usabilidade também em dispositivos móveis!
+> 🎉 **Novidade na versão (v2.1):** O portfólio agora é totalmente responsivo, garantindo uma ótima experiência de navegação e usabilidade também em dispositivos móveis! Disponível em Português, English e Español
 
 ---
 
