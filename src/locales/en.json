@@ -28,5 +28,34 @@
       "alt": "Hyprland Interface",
       "summary": "Repository developed to help new users in the Arch world achieve a simple, beautiful, and functional system. The repository is also a way to recover the system in case of incidents."
     }
+  },
+  "about": {
+    "title": "About me",
+    "block1": {
+      "p1": "👋 Hey everyone! I'm Ivaneudo, an ",
+      "hl1": "IT Technician",
+      "p2": " and a ",
+      "hl2": "Software Engineering",
+      "p3": " undergraduate at INBEC with a full scholarship. Currently, I work as a B2G Developer, Academic Researcher, and Class Leader. I'm a ",
+      "hl3": "Linux",
+      "p4": " 🐧 enthusiast and a ",
+      "hl4": "Volunteer at the Vera Criança Movement",
+      "p5": " since 2023."
+    },
+    "block2": {
+      "p1": "I often say I'm a humanities guy adventuring in the tech world. Before reaching my ",
+      "hl1": "Technical High School",
+      "p2": ", I was passionate about History and thought about pursuing a career as a teacher. However, getting to know the development world completely changed my life. ",
+      "hl2": "Today, my main goal",
+      "p3": " is to ",
+      "hl3": "improve my applications",
+      "p4": " and ",
+      "hl4": "help people",
+      "p5": "."
+    },
+    "languagesTitle": "Languages:",
+    "languages": "🇧🇷 Portuguese (Native) | 🇪🇦 Spanish (Intermediate) | 🇨🇦 English (Basic)",
+    "socialTitle": "My social networks",
+    "socialDesc": "To learn more about me, visit my social networks:"
   }
 }
