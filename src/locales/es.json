@@ -3,5 +3,11 @@
     "home": "Inicio",
     "projects": "Proyectos",
     "about": "Sobre mí"
+  },
+  "home": {
+    "rolePrefix": "Desarrollador ",
+    "roleHighlight": "Full-Stack",
+    "roleSuffix": "",
+    "summary": "Ingeniero de Software Full-Stack enfocado en crear aplicaciones web escalables, APIs robustas y experiencias digitales con impacto real."
   }
 }

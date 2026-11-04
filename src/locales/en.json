@@ -3,5 +3,11 @@
     "home": "Home",
     "projects": "Projects",
     "about": "About me"
+  },
+  "home": {
+    "rolePrefix": "",
+    "roleHighlight": "Full-Stack",
+    "roleSuffix": " Developer",
+    "summary": "Full-Stack Software Engineer focused on building scalable web applications, robust APIs, and digital experiences with real impact."
   }
 }
