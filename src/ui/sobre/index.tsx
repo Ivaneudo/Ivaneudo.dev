@@ -1,5 +1,5 @@
-import { Descricao } from "../Text/styles";
-import { Bloco, Blocos } from "./styles"
+import { Descricao } from "../../components/Text/styles";
+import { Bloco, Blocos } from "./styles";
 
 interface SobreProps {
   bloco1: React.ReactNode;

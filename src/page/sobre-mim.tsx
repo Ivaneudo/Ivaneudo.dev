@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Sobre } from "../components/blocosTexto";
+import { Sobre } from "../ui/sobre/index";
 import * as S from "../components/conteiner/styles";
 import { Icons } from "../components/IconsDigitais";
 import { Descricao, TextH2, TextSpan } from "../components/Text/styles";
