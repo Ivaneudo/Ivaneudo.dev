@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1793981203026" clover="3.2.0">
-  <project timestamp="1793981203026" name="All files">
-    <metrics statements="148" coveredstatements="148" conditionals="29" coveredconditionals="29" methods="84" coveredmethods="84" elements="261" coveredelements="261" complexity="0" loc="148" ncloc="148" packages="11" files="20" classes="20"/>
+<coverage generated="1793983335101" clover="3.2.0">
+  <project timestamp="1793983335102" name="All files">
+    <metrics statements="158" coveredstatements="158" conditionals="29" coveredconditionals="29" methods="88" coveredmethods="88" elements="275" coveredelements="275" complexity="0" loc="158" ncloc="158" packages="12" files="23" classes="23"/>
     <package name="Layout">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="GlobalStyle.ts" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\Layout\GlobalStyle.ts">
@@ -169,6 +169,28 @@
         <line num="11" count="4" type="stmt"/>
         <line num="12" count="4" type="stmt"/>
         <line num="14" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="page">
+      <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+      <file name="Home.tsx" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\page\Home.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="13" type="stmt"/>
+      </file>
+      <file name="projeto.tsx" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\page\projeto.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="38" type="stmt"/>
+        <line num="13" count="38" type="stmt"/>
+      </file>
+      <file name="sobre-mim.tsx" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\page\sobre-mim.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="28" type="stmt"/>
+        <line num="10" count="28" type="stmt"/>
+        <line num="16" count="28" type="stmt"/>
+        <line num="47" count="69" type="stmt"/>
       </file>
     </package>
     <package name="ui.apresentacaoHome">
