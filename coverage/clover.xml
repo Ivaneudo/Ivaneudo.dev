@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1793969744517" clover="3.2.0">
-  <project timestamp="1793969744518" name="All files">
-    <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4" elements="19" coveredelements="19" complexity="0" loc="13" ncloc="13" packages="2" files="3" classes="3"/>
-    <package name="IconsDigitais">
+<coverage generated="1793971239030" clover="3.2.0">
+  <project timestamp="1793971239030" name="All files">
+    <metrics statements="52" coveredstatements="52" conditionals="14" coveredconditionals="14" methods="27" coveredmethods="27" elements="93" coveredelements="93" complexity="0" loc="52" ncloc="52" packages="4" files="6" classes="6"/>
+    <package name="Layout">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="GlobalTheme.ts" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\Layout\GlobalTheme.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.IconsDigitais">
       <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
       <file name="index.tsx" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\components\IconsDigitais\index.tsx">
         <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
@@ -17,7 +25,53 @@
         <line num="7" count="10" type="stmt"/>
       </file>
     </package>
-    <package name="conteiner">
+    <package name="components.LanguageSwitcher">
+      <metrics statements="37" coveredstatements="37" conditionals="12" coveredconditionals="12" methods="23" coveredmethods="23"/>
+      <file name="index.tsx" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\components\LanguageSwitcher\index.tsx">
+        <metrics statements="19" coveredstatements="19" conditionals="6" coveredconditionals="6" methods="9" coveredmethods="9"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="17" type="stmt"/>
+        <line num="13" count="17" type="stmt"/>
+        <line num="14" count="17" type="stmt"/>
+        <line num="16" count="17" type="stmt"/>
+        <line num="17" count="11" type="stmt"/>
+        <line num="18" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="22" count="11" type="stmt"/>
+        <line num="23" count="11" type="stmt"/>
+        <line num="26" count="17" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="31" count="26" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="17" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="40" count="51" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+      </file>
+      <file name="styles.ts" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\components\LanguageSwitcher\styles.ts">
+        <metrics statements="18" coveredstatements="18" conditionals="6" coveredconditionals="6" methods="14" coveredmethods="14"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="18" count="19" type="stmt"/>
+        <line num="19" count="19" type="stmt"/>
+        <line num="20" count="19" type="stmt"/>
+        <line num="27" count="19" type="stmt"/>
+        <line num="31" count="19" type="stmt"/>
+        <line num="32" count="19" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="40" count="21" type="stmt"/>
+        <line num="41" count="21" type="stmt"/>
+        <line num="47" count="21" type="cond" truecount="2" falsecount="0"/>
+        <line num="51" count="21" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="64" count="55" type="stmt"/>
+        <line num="66" count="55" type="cond" truecount="2" falsecount="0"/>
+        <line num="67" count="55" type="cond" truecount="2" falsecount="0"/>
+        <line num="74" count="55" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.conteiner">
       <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="styles.ts" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\components\conteiner\styles.ts">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
