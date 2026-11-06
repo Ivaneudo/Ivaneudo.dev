@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1793973051406" clover="3.2.0">
-  <project timestamp="1793973051407" name="All files">
-    <metrics statements="102" coveredstatements="90" conditionals="23" coveredconditionals="23" methods="60" coveredmethods="48" elements="185" coveredelements="161" complexity="0" loc="102" ncloc="102" packages="8" files="13" classes="13"/>
+<coverage generated="1793973349903" clover="3.2.0">
+  <project timestamp="1793973349903" name="All files">
+    <metrics statements="102" coveredstatements="102" conditionals="23" coveredconditionals="23" methods="60" coveredmethods="60" elements="185" coveredelements="185" complexity="0" loc="102" ncloc="102" packages="8" files="13" classes="13"/>
     <package name="Layout">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="GlobalTheme.ts" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\Layout\GlobalTheme.ts">
@@ -88,35 +88,35 @@
       </file>
     </package>
     <package name="components.Text">
-      <metrics statements="26" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="20" coveredmethods="8"/>
+      <metrics statements="26" coveredstatements="26" conditionals="0" coveredconditionals="0" methods="20" coveredmethods="20"/>
       <file name="styles.ts" path="C:\Users\ivaneudorocha\Development\Studies\projetos\IvaneudoPortfolio\src\components\Text\styles.ts">
-        <metrics statements="26" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="20" coveredmethods="8"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="35" count="1" type="stmt"/>
-        <line num="36" count="6" type="stmt"/>
-        <line num="37" count="6" type="stmt"/>
-        <line num="38" count="6" type="stmt"/>
-        <line num="42" count="6" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
-        <line num="50" count="6" type="stmt"/>
-        <line num="51" count="6" type="stmt"/>
-        <line num="52" count="6" type="stmt"/>
-        <line num="55" count="6" type="stmt"/>
+        <metrics statements="26" coveredstatements="26" conditionals="0" coveredconditionals="0" methods="20" coveredmethods="20"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="7" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="12" type="stmt"/>
+        <line num="37" count="8" type="stmt"/>
+        <line num="38" count="8" type="stmt"/>
+        <line num="42" count="8" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="50" count="7" type="stmt"/>
+        <line num="51" count="7" type="stmt"/>
+        <line num="52" count="7" type="stmt"/>
+        <line num="55" count="7" type="stmt"/>
       </file>
     </package>
     <package name="components.conteiner">
