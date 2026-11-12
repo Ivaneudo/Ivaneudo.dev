@@ -3,22 +3,19 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { Projeto } from "./index";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
 vi.mock("react-icons/fa", () => ({
   FaGithub: () => <svg data-testid="icon-github" />,
   FaLink: () => <svg data-testid="icon-link" />
 }));
 
-// 2. Fixtures / Mocks de dados base
-
-// Adicionamos colors, fontSizes e fonts ao mockTheme!
 const mockTheme = {
   breakpoints: {
     mobile: "768px",
   },
   colors: {
-    bold: "#ffffff", // Valor genérico para o teste passar
+    bold: "#ffffff", 
   },
   fontSizes: {
     medium: "16px",
@@ -45,7 +42,6 @@ const mockValidoCompleto = {
   ],
 };
 
-// 3. Helper de Renderização (Injeta o ThemeProvider)
 const renderWithTheme = (ui: React.ReactElement) => {
   return render(<ThemeProvider theme={mockTheme}>{ui}</ThemeProvider>);
 };
@@ -122,8 +118,6 @@ describe("Componente Projeto (index.tsx)", () => {
         />
       );
       
-      // Busca diretamente a tag 'img' em vez de usar getByRole, 
-      // pois alt="" transforma a role em "presentation"
       const img = container.querySelector("img");
       expect(img).toBeDefined();
     });

@@ -3,12 +3,10 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { TechContainer, LinksContainer, Img } from "./styles"; // Ajuste o caminho se necessário
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
-// Não há APIs assíncronas no styles, mas mantemos o padrão de mock para dependências
 vi.mock("modulo-externo", () => ({}));
 
-// 2. Fixtures / Mocks de dados base
 const mockThemeValido = {
   breakpoints: {
     mobile: "768px",
@@ -28,7 +26,6 @@ describe("Styles - Componentes Estilizados", () => {
 
   describe("Caminho Feliz (Happy Path)", () => {
     it("valida o payload mínimo obrigatório (renderização sem props adicionais)", () => {
-      // TechContainer e LinksContainer não dependem do tema, devem renderizar de forma autônoma
       const { container: techContainer } = render(<TechContainer />);
       expect(techContainer.firstChild).toBeDefined();
       expect(techContainer.firstChild?.nodeName).toBe("DIV");
@@ -66,7 +63,6 @@ describe("Styles - Componentes Estilizados", () => {
 
   describe("Validação de Campos Opcionais e Borda", () => {
     it("aceita valores vazios e strings vazias no theme.breakpoints.mobile", () => {
-      // Mesmo com o breakpoint vazio, o Emotion deve fazer o parse (gerando um @media vazio) sem quebrar a aplicação
       const { container } = render(
         <ThemeProvider theme={mockThemeVazio}>
           <Img src="image.png" alt="Edge Case Image" />
@@ -88,11 +84,8 @@ describe("Styles - Componentes Estilizados", () => {
 
   describe("Tratamento de Erros e Exceções", () => {
     it("lança falha e rejeita renderização quando a propriedade theme está ausente (exceção de injeção)", () => {
-      // Suprimimos temporariamente o console.error gerado pelo React ao capturar a exceção de renderização
       const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-      // O componente <Img> faz destructing de `({ theme }) => theme.breakpoints.mobile`.
-      // Sem o ThemeProvider, ler `breakpoints` de undefined lançará um TypeError
       expect(() => {
         render(<Img src="image.png" />);
       }).toThrow();
@@ -103,7 +96,7 @@ describe("Styles - Componentes Estilizados", () => {
     it("trata falhas e lança erro quando o payload do theme enviado está malformatado", () => {
       const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-      const temaMalformatado = {}; // Não possui objeto "breakpoints"
+      const temaMalformatado = {}; 
 
       expect(() => {
         render(
@@ -112,7 +105,7 @@ describe("Styles - Componentes Estilizados", () => {
             <Img src="image.png" />
           </ThemeProvider>
         );
-      }).toThrow(); // Irá quebrar ao tentar acessar breakpoints.mobile
+      }).toThrow();
 
       consoleErrorSpy.mockRestore();
     });

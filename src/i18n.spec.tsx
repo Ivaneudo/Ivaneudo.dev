@@ -1,10 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import "@testing-library/jest-dom";
 
-// =============================================================
-// 1. Mocks globais e de dependências externas (no topo do arquivo)
-// =============================================================
-
-// Fixtures previsíveis para os 3 arquivos de tradução
 const ptFixture = { hello: "Olá", about: { title: "Sobre" } };
 const enFixture = { hello: "Hello", about: { title: "About" } };
 const esFixture = { hello: "Hola", about: { title: "Acerca" } };
@@ -13,12 +9,9 @@ vi.mock("./locales/pt.json", () => ({ default: ptFixture }));
 vi.mock("./locales/en.json", () => ({ default: enFixture }));
 vi.mock("./locales/es.json", () => ({ default: esFixture }));
 
-// Mock do i18next — capturamos a cadeia .use().use().init()
-// e expomos `use` e `init` como spies controláveis.
 const mockUse = vi.fn();
 const mockInit = vi.fn();
 
-// O objeto mock precisa ser "chainable": use() retorna o próprio i18n mock
 const mockI18n = {
   use: mockUse.mockReturnThis(),
   init: mockInit,
@@ -28,7 +21,6 @@ vi.mock("i18next", () => ({
   default: mockI18n,
 }));
 
-// Mocks dos plugins — só validamos que foram registrados, não o comportamento
 const mockLanguageDetector = { name: "LanguageDetector" };
 const mockInitReactI18next = { name: "initReactI18next" };
 
@@ -39,13 +31,6 @@ vi.mock("i18next-browser-languagedetector", () => ({
 vi.mock("react-i18next", () => ({
   initReactI18next: mockInitReactI18next,
 }));
-
-// =============================================================
-// 2. Helpers puros (retornos booleanos explícitos)
-// =============================================================
-
-// Cada helper encapsula uma verificação booleana sobre o estado dos mocks.
-// Isso evita ternários implícitos nos `expect` e centraliza a lógica.
 
 const initFoiChamado = (): boolean => mockInit.mock.calls.length > 0;
 
@@ -87,16 +72,10 @@ const pluginFoiRegistrado = (plugin: unknown): boolean =>
 
 const totalDePluginsRegistrados = (): number => mockUse.mock.calls.length;
 
-// =============================================================
-// 3. Suite de testes
-// =============================================================
-
 describe("i18n (configuração)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Restaura comportamento chainable de use()
     mockUse.mockReturnThis();
-    // Reimporta o módulo para reexecutar i18n.init() a cada teste
     vi.resetModules();
   });
 
@@ -104,13 +83,11 @@ describe("i18n (configuração)", () => {
     vi.resetModules();
   });
 
-  // Helper local: importa o módulo (dispara init) e devolve o default export
   const importarModulo = async () => {
     const mod = await import("./i18n");
     return mod.default;
   };
 
-  // -----------------------------------------------------------
   describe("Caminho Feliz (Happy Path)", () => {
     it("exporta o objeto i18n como default", async () => {
       const i18n = await importarModulo();
@@ -127,7 +104,6 @@ describe("i18n (configuração)", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Registro de plugins (.use())", () => {
     it("registra o LanguageDetector", async () => {
       await importarModulo();
@@ -153,7 +129,6 @@ describe("i18n (configuração)", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Configuração de resources (traduções)", () => {
     it("define resources para pt, en e es", async () => {
       await importarModulo();
@@ -183,7 +158,6 @@ describe("i18n (configuração)", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Configuração de fallback e interpolação", () => {
     it("define fallbackLng como 'pt' (branch de idioma não suportado)", async () => {
       await importarModulo();
@@ -205,7 +179,6 @@ describe("i18n (configuração)", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Validação de valores vazios e edge cases", () => {
     it("não passa opções extras não documentadas para init()", async () => {
       await importarModulo();
@@ -234,7 +207,6 @@ describe("i18n (configuração)", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Tratamento de Erros e Exceções", () => {
     it("propaga erro se init() falhar (config não silencia falhas)", async () => {
       mockInit.mockImplementationOnce(() => {
@@ -251,7 +223,6 @@ describe("i18n (configuração)", () => {
     });
 
     it("propaga erro se initReactI18next lançar no registro", async () => {
-      // 1ª chamada (LanguageDetector) passa, 2ª (initReactI18next) falha
       mockUse
         .mockReturnThis()
         .mockImplementationOnce(() => mockI18n)
@@ -262,12 +233,11 @@ describe("i18n (configuração)", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Idempotência e reimportação", () => {
     it("reimportar sem resetModules NÃO reinicializa (module cache)", async () => {
       await importarModulo();
       const chamadasAposPrimeiro = mockInit.mock.calls.length;
-      await importarModulo(); // segundo import usa cache
+      await importarModulo(); 
       expect(mockInit.mock.calls.length).toBe(chamadasAposPrimeiro);
     });
 

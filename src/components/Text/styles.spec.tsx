@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
+import "@testing-library/jest-dom";
 import { 
   TextSpan, 
   Cargo, 
@@ -10,11 +11,8 @@ import {
   TituloProjeto 
 } from "./styles";
 
-// 1. Mocks globais e de dependências externas
-// Suprimindo o console.error para os testes de exceção (para manter o terminal limpo)
 const originalConsoleError = console.error;
 
-// 2. Fixtures / Mocks de dados base
 const mockThemeValido = {
   colors: {
     bold: "#000000",
@@ -58,14 +56,13 @@ const mockThemeVazio = {
 describe("Componentes de Estilo (styles.ts)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    console.error = vi.fn(); // Muta o console.error para não poluir o log nos testes de falha
+    console.error = vi.fn(); 
   });
 
   afterEach(() => {
-    console.error = originalConsoleError; // Restaura após cada teste
+    console.error = originalConsoleError; 
   });
 
-  // Função auxiliar para renderizar com o tema de forma limpa
   const renderWithTheme = (Component: any, theme: any = mockThemeValido) => {
     return render(
       <ThemeProvider theme={theme}>
@@ -109,8 +106,6 @@ describe("Componentes de Estilo (styles.ts)", () => {
 
   describe("Validação de Campos Opcionais e Borda", () => {
     it("aceita valores de string vazia ('') em todos os campos do tema sem quebrar o componente", () => {
-      // O unmount() é chamado após cada asserção para limpar o DOM e 
-      // evitar colisão da query getByText no mesmo bloco 'it'.
       
       const { getByText: getSpan, unmount: unmountSpan } = renderWithTheme(TextSpan, mockThemeVazio);
       expect(getSpan("Texto de Teste")).toBeInTheDocument();
@@ -138,8 +133,6 @@ describe("Componentes de Estilo (styles.ts)", () => {
 
   describe("Tratamento de Erros e Exceções", () => {
     it("retorna falha/exceção quando o theme for undefined e o styled-component tentar desestruturar ({ theme })", () => {
-      // Como o código do componente assume desestruturação direta `({theme}) => theme.colors...`
-      // Ele deve lançar um TypeError se o ThemeProvider não prover o objeto esperado ou for undefined.
       expect(() => {
         render(<TextSpan theme={undefined as any}>Texto</TextSpan>);
       }).toThrowError(/Cannot read properties of undefined|Cannot destructure property/);
@@ -148,12 +141,11 @@ describe("Componentes de Estilo (styles.ts)", () => {
     it("trata falha ao tentar acessar subpropriedades de um tema malformatado (ex: faltando 'colors')", () => {
       const themeMalformatado = {
         fontSizes: { h1: "32px" }
-      }; // Não possui colors
+      }; 
 
       expect(() => {
         renderWithTheme(Cargo, themeMalformatado);
       }).toThrowError(); 
-      // Lança erro no `theme.colors.text`
     });
 
     it("trata falha ao tentar acessar subpropriedades quando tema é null", () => {

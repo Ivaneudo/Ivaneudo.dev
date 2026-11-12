@@ -3,9 +3,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { Container, TriggerButton, DropdownMenu, MenuItem } from "./styles";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
-// Não há APIs externas complexas neste arquivo, mas preparamos o ambiente.
 vi.mock("@emotion/styled", async (importOriginal) => {
   const actual = await importOriginal();
   return {
@@ -13,7 +12,6 @@ vi.mock("@emotion/styled", async (importOriginal) => {
   };
 });
 
-// 2. Fixtures / Mocks de dados base (Mock do Tema)
 const mockTheme = {
   colors: {
     border: "#e5e5e5",
@@ -32,7 +30,6 @@ const mockTheme = {
   },
 };
 
-// Utilitário para renderizar com o tema
 const renderWithTheme = (ui: React.ReactNode) => {
   return render(<ThemeProvider theme={mockTheme}>{ui}</ThemeProvider>);
 };
@@ -53,7 +50,6 @@ describe("Styles Components (styles.ts)", () => {
       renderWithTheme(<TriggerButton data-testid="trigger">Botão</TriggerButton>);
       const button = screen.getByTestId("trigger");
       expect(button).toBeInTheDocument();
-      // O Emotion gera classes, garantimos que o componente não quebra ao acessar o tema
       expect(button.tagName).toBe("BUTTON");
     });
 
@@ -61,8 +57,6 @@ describe("Styles Components (styles.ts)", () => {
       renderWithTheme(<DropdownMenu isOpen={true} data-testid="dropdown">Menu</DropdownMenu>);
       const dropdown = screen.getByTestId("dropdown");
       expect(dropdown).toBeInTheDocument();
-      // Em testes de styled-components puros na DOM, a regra CSS é injetada via <style>.
-      // Validamos se a propriedade foi repassada sem quebrar a compilação.
       expect(dropdown).toHaveStyle({ display: 'block' }); 
     });
 
@@ -90,14 +84,13 @@ describe("Styles Components (styles.ts)", () => {
     });
 
     it("aceita valores falsy não booleanos graciosamente (Edge cases / undefined handling)", () => {
-      // Forçando injeção de tipos falsy que podem vir de runtime em JS
       renderWithTheme(
         <DropdownMenu isOpen={undefined as unknown as boolean} data-testid="dropdown-falsy">
           Menu Falsy
         </DropdownMenu>
       );
       const dropdown = screen.getByTestId("dropdown-falsy");
-      expect(dropdown).toHaveStyle({ display: 'none' }); // undefined deve cair no 'none'
+      expect(dropdown).toHaveStyle({ display: 'none' }); 
 
       renderWithTheme(
         <MenuItem isActive={0 as unknown as boolean} data-testid="menuitem-falsy">
@@ -105,7 +98,7 @@ describe("Styles Components (styles.ts)", () => {
         </MenuItem>
       );
       const menuItem = screen.getByTestId("menuitem-falsy");
-      expect(menuItem).toHaveStyle({ fontWeight: '400' }); // 0 deve cair no 'normal'
+      expect(menuItem).toHaveStyle({ fontWeight: '400' });
     });
   });
 

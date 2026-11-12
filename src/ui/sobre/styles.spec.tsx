@@ -2,24 +2,22 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { Blocos, Bloco } from "./styles"; // Ajuste o path se necessário
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
-// Mockando matchMedia para ambientes virtuais (JSDOM/Happy-DOM), necessário para media queries
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
-    addListener: vi.fn(), // Deprecated
-    removeListener: vi.fn(), // Deprecated
+    addListener: vi.fn(), 
+    removeListener: vi.fn(), 
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
 });
 
-// 2. Fixtures / Mocks de dados base
 const mockThemeValido = {
   breakpoints: { mobile: "768px" },
   colors: {
@@ -60,7 +58,6 @@ describe("Estilos: Blocos e Bloco (styles.ts)", () => {
 
   describe("Validação de Campos Opcionais e Borda (Edge Cases)", () => {
     it("aceita valores vazios (\"\") nos atributos do theme para propriedades de cor e tamanho", () => {
-      // Cobertura do comportamento do styled-components ao interpolar strings vazias
       const mockThemeVazio = {
         breakpoints: { mobile: "" },
         colors: { background: "", border: "", bold: "" },
@@ -112,7 +109,6 @@ describe("Estilos: Blocos e Bloco (styles.ts)", () => {
     let consoleErrorMock: any;
 
     beforeEach(() => {
-      // Suprime os logs de erro do React no console para que o teste falhe de forma "silenciosa" no terminal
       consoleErrorMock = vi.spyOn(console, "error").mockImplementation(() => {});
     });
 
@@ -121,17 +117,14 @@ describe("Estilos: Blocos e Bloco (styles.ts)", () => {
     });
 
     it("retorna falha/lança exceção quando renderizado sem o contexto do ThemeProvider", () => {
-      // Como as arrow functions buscam `theme.breakpoints.mobile`, renderizar sem o ThemeProvider
-      // resultará na leitura de propriedades de `undefined`, lançando uma exceção real.
       expect(() => {
         render(<Blocos>Renderização Órfã</Blocos>);
       }).toThrowError();
     });
 
     it("trata falhas assíncronas/estruturais quando o objeto `theme` é passado incompleto (TypeError esperado)", () => {
-      // Simulamos um mock de dados corrompido que veio da API / rede falhando
       const themeMalformado = {
-        colors: {} // Ausência do objeto `breakpoints` gerará throw
+        colors: {}
       } as any;
 
       expect(() => {

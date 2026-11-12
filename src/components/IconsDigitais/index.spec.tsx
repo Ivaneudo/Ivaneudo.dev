@@ -1,13 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { Icons } from "./index";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
 vi.mock("./styles", () => ({
   IconsDig: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} />,
 }));
 
-// 2. Fixtures / Mocks de dados base
 const mockValidoBase = {
   src: "/path/to/icon.svg",
   alt: "Ícone Ilustrativo",

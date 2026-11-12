@@ -1,18 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { SobreMim } from "./sobre-mim";
+import "@testing-library/jest-dom";
 
-// =============================================================
-// 1. Mocks globais e de dependências externas (no topo do arquivo)
-// =============================================================
-
-// Mock do react-i18next — o `t` será controlado por teste
 const mockT = vi.fn((key: string) => key);
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: mockT }),
 }));
 
-// Mock do componente Sobre — expõe bloco1/bloco2 como data-testid
 vi.mock("../ui/sobre/index", () => ({
   Sobre: ({ bloco1, bloco2 }: { bloco1: React.ReactNode; bloco2: React.ReactNode }) => (
     <div data-testid="sobre-component">
@@ -22,7 +17,6 @@ vi.mock("../ui/sobre/index", () => ({
   ),
 }));
 
-// Mock do componente Icons — expõe props como data-attributes
 vi.mock("../components/IconsDigitais", () => ({
   Icons: ({ src, alt, href }: { src: string; alt: string; href: string }) => (
     <a
@@ -36,7 +30,6 @@ vi.mock("../components/IconsDigitais", () => ({
   ),
 }));
 
-// Mock dos estilos (evita dependência de styled-components no teste)
 vi.mock("../components/conteiner/styles", () => ({
   Div: ({ children, ...props }: any) => <div data-testid="container-div" {...props}>{children}</div>,
   Redes: ({ children, ...props }: any) => <div data-testid="container-redes" {...props}>{children}</div>,
@@ -48,12 +41,6 @@ vi.mock("../components/Text/styles", () => ({
   TextSpan: ({ children }: any) => <span data-testid="text-span">{children}</span>,
 }));
 
-// =============================================================
-// 2. Fixtures / Helpers puros (refatoração de lógica booleana)
-// =============================================================
-
-// Lista canônica de todas as chaves i18n consumidas pelo componente.
-// Fonte de verdade para os testes de cobertura.
 const TODAS_AS_CHAVES_I18N = [
   "about.title",
   "about.block1.p1", "about.block1.hl1",
@@ -90,21 +77,15 @@ const REDES_ESPERADAS = [
   },
 ] as const;
 
-// Helpers puros de verificação (retornos booleanos explícitos)
 const chaveFoiTraduzida = (key: string): boolean =>
   mockT.mock.calls.some(([k]) => k === key);
 
 const todasAsChavesForamTraduzidas = (): boolean =>
   TODAS_AS_CHAVES_I18N.every((k) => chaveFoiTraduzida(k));
 
-// =============================================================
-// 3. Suite de testes
-// =============================================================
-
 describe("SobreMim", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Restaura comportamento padrão do t(): retorna a própria chave
     mockT.mockImplementation((key: string) => key);
   });
 
@@ -132,10 +113,8 @@ describe("SobreMim", () => {
 
     it("renderiza a seção de idiomas (título + descrição)", () => {
       render(<SobreMim />);
-      // Título de idiomas é o segundo TextH2
       const titulos = screen.getAllByTestId("text-h2");
       expect(titulos[1]).toHaveTextContent("about.languagesTitle");
-      // Descrição de idiomas é o primeiro Descricao
       const descricoes = screen.getAllByTestId("descricao");
       expect(descricoes[0]).toHaveTextContent("about.languages");
     });
@@ -198,7 +177,6 @@ describe("SobreMim", () => {
     it("renderiza as 4 highlights do bloco1 dentro de TextSpan", () => {
       render(<SobreMim />);
       const spans = screen.getAllByTestId("text-span");
-      // 4 highlights bloco1 + 4 highlights bloco2 + 1 languagesTitle + 1 socialTitle
       expect(spans.length).toBe(10);
     });
   });
@@ -248,10 +226,8 @@ describe("SobreMim", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Tratamento de Erros e Exceções", () => {
     it("propaga o erro se useTranslation lançar exceção (sem i18n provider)", () => {
-      // Simula t() lançando — garante que o erro não é silenciado
       mockT.mockImplementation(() => {
         throw new Error("i18n not initialized");
       });
@@ -273,7 +249,6 @@ describe("SobreMim", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Snapshot e consistência estrutural", () => {
     it("mantém a estrutura de containers (Div > Sobre + Redes)", () => {
       render(<SobreMim />);

@@ -1,20 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Home } from "./home";
+import "@testing-library/jest-dom";
 
-// =============================================================
-// 1. Mocks globais e de dependências externas (no topo do arquivo)
-// =============================================================
-
-// Mock do filho — isola Home de qualquer dependência transitiva
-// (i18n, estilos, imagens, etc. que ApresentacaoHome possa importar)
 vi.mock("../ui/apresentacaoHome", () => ({
   ApresentacaoHome: () => (
     <div data-testid="apresentacao-home">ApresentacaoHome</div>
   ),
 }));
 
-// Mock do container de estilos — expõe props como data-attributes
 vi.mock("../components/conteiner/styles", () => ({
   containerSection: ({ children, ...props }: any) => (
     <section data-testid="container-section" {...props}>
@@ -22,10 +16,6 @@ vi.mock("../components/conteiner/styles", () => ({
     </section>
   ),
 }));
-
-// =============================================================
-// 2. Helpers puros (retornos booleanos explícitos)
-// =============================================================
 
 const filhoRenderizadoDentroDoContainer = (): boolean => {
   const container = screen.queryByTestId("container-section");
@@ -39,16 +29,11 @@ const containerTemAtributoId = (): boolean => {
   return container?.hasAttribute("id") ?? false;
 };
 
-// =============================================================
-// 3. Suite de testes
-// =============================================================
-
 describe("Home", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  // -----------------------------------------------------------
   describe("Caminho Feliz (Happy Path)", () => {
     it("renderiza sem lançar exceção", () => {
       expect(() => render(<Home />)).not.toThrow();
@@ -70,7 +55,6 @@ describe("Home", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Contrato do wrapper (S.containerSection)", () => {
     it("passa a prop 'id' para o container (contrato atual: string vazia)", () => {
       render(<Home />);
@@ -85,7 +69,6 @@ describe("Home", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Estrutura e hierarquia (integração container ↔ filho)", () => {
     it("ApresentacaoHome é renderizado DENTRO do container (não irmão)", () => {
       render(<Home />);
@@ -105,7 +88,6 @@ describe("Home", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Isolamento e ausência de side-effects", () => {
     it("não chama fetch (componente é puro/apresentação)", () => {
       const fetchSpy = vi.spyOn(globalThis, "fetch");
@@ -132,28 +114,17 @@ describe("Home", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Tratamento de Erros e Exceções", () => {
     it("propaga o erro se ApresentacaoHome lançar exceção", () => {
-      // Re-mock pontual: filho que explode na renderização
       vi.doMock("../ui/apresentacaoHome", () => ({
         ApresentacaoHome: () => {
           throw new Error("ApresentacaoHome crash");
         },
       }));
-      // Como vi.doMock não afeta o import já cacheado neste módulo de teste,
-      // validamos o contrato "erros do filho NÃO são silenciados" via outro caminho:
-      // o componente pai não tem ErrorBoundary, portanto o erro propaga.
-      // (Este teste serve como documentação do contrato — se no futuro
-      //  um ErrorBoundary for adicionado, este teste deve falhar e ser revisado.)
       expect(() => render(<Home />)).not.toThrow(); // filho mockado (topo) não lança
     });
 
     it("não engole erros de estilos (falha em containerSection propaga)", () => {
-      // Nota: o mock de containerSection no topo é estável; este teste documenta
-      // que Home NÃO tem try/catch — se o módulo de estilos quebrar, o erro sobe.
-      // Substituir containerSection por um que lance exigiria re-mock isolado,
-      // fora do escopo de um teste de wrapper puro.
       expect(true).toBe(true);
     });
   });

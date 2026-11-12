@@ -144,7 +144,23 @@
 <a name='L68'></a><a href='#L68'>68</a>
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -154,9 +170,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -222,6 +252,7 @@ import raizesDigitaisImg from "../Img/vera-crianca.png"
 import limpoImg from "../Img/limpo.png"
 import ficaComiog from "../Img/fica-comigo.png"
 import arch from "../Img/arch.png"
+import ivaneandome from "../Img/ivaneandome.png"
 &nbsp;
 export const Projetos = () =&gt; {
   const { t } = useTranslation();
@@ -243,6 +274,44 @@ export const Projetos = () =&gt; {
           &lt;img key="js" src="https://skillicons.dev/icons?i=js" height="30" alt="javascript" /&gt;,
         ]}
       /&gt;
+&nbsp;
+      &lt;Projeto 
+        nome="Ivaneando.me"
+        imagem={ivaneandome}
+        altImg={t('projects.ivaneandome.alt')}
+        resumo={t('projects.ivaneandome.summary')}
+        url="https://github.com/Ivaneudo/Ivaneando.me"
+        link="https://ivaneandome.vercel.app/"
+        tecnologias={[
+          &lt;img key="html" src="https://skillicons.dev/icons?i=next" height="30" alt="next" /&gt;,
+          &lt;img key="css" src="https://skillicons.dev/icons?i=tailwind" height="30" alt="tailwind" /&gt;,
+        ]}
+      /&gt;
+&nbsp;
+      &lt;Projeto 
+        nome="Fica Comigo"
+        imagem={ficaComiog}
+        altImg={t('projects.ficaComigo.alt')}
+        resumo={t('projects.ficaComigo.summary')}
+        url="https://github.com/Ivaneudo/fica-comigo"
+        tecnologias={[
+          &lt;img key="react" src="https://skillicons.dev/icons?i=react" height="30" alt="react" /&gt;,
+          &lt;img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" /&gt;,
+          &lt;img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" /&gt;,
+        ]}
+      /&gt;
+&nbsp;
+      &lt;Projeto 
+        nome="Arch + Hyprland"
+        imagem={arch}
+        altImg={t('projects.arch.alt')}
+        resumo={t('projects.arch.summary')}
+        url="https://github.com/Ivaneudo/Arch-Hyprland"
+        tecnologias={[
+          &lt;img key="lua" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" height="30" alt="Lua" /&gt;,
+          &lt;img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" /&gt;,
+        ]}
+      /&gt;
       
       &lt;Projeto 
         nome="Limpo Serviço"
@@ -257,31 +326,7 @@ export const Projetos = () =&gt; {
           &lt;img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" /&gt;,
         ]}
       /&gt;
-      
-      &lt;Projeto 
-        nome="Fica Comigo"
-        imagem={ficaComiog}
-        altImg={t('projects.ficaComigo.alt')}
-        resumo={t('projects.ficaComigo.summary')}
-        url="https://github.com/Ivaneudo/fica-comigo"
-        tecnologias={[
-          &lt;img key="react" src="https://skillicons.dev/icons?i=react" height="30" alt="react" /&gt;,
-          &lt;img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" /&gt;,
-          &lt;img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" /&gt;,
-        ]}
-      /&gt;
-      
-      &lt;Projeto 
-        nome="Arch + Hyprland"
-        imagem={arch}
-        altImg={t('projects.arch.alt')}
-        resumo={t('projects.arch.summary')}
-        url="https://github.com/Ivaneudo/Arch-Hyprland"
-        tecnologias={[
-          &lt;img key="lua" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" height="30" alt="Lua" /&gt;,
-          &lt;img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" /&gt;,
-        ]}
-      /&gt;
+&nbsp;
     &lt;/Div&gt;
   )
 }</pre></td></tr></table></pre>
@@ -291,7 +336,7 @@ export const Projetos = () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-06T17:06:56.951Z
+                at 2026-11-12T17:20:29.717Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

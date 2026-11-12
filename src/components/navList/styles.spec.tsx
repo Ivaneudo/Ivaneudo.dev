@@ -3,12 +3,10 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { navList as NavList, navItem as NavItem, navLink as NavLink } from "./styles";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais
-// Mockando o console.error para evitar poluição no terminal durante os testes de exceção (Tratamento de Erros)
 const consoleErrorMock = vi.spyOn(console, "error").mockImplementation(() => {});
 
-// 2. Fixtures / Mocks de dados base
 const mockTheme = {
   colors: {
     bold: "#ff0000",
@@ -22,7 +20,6 @@ const mockTheme = {
   },
 };
 
-// Função auxiliar para renderizar com o tema
 const renderWithTheme = (ui: React.ReactElement) => {
   return render(<ThemeProvider theme={mockTheme}>{ui}</ThemeProvider>);
 };
@@ -59,7 +56,6 @@ describe("Componentes de Navegação (styles.ts)", () => {
       
       expect(link).toBeInTheDocument();
       expect(link).toHaveAttribute("href", "/sobre");
-      // Quando ativo, a cor deve vir de theme.colors.bold
       expect(link).toHaveStyle({ color: mockTheme.colors.bold });
     });
   });
@@ -69,7 +65,6 @@ describe("Componentes de Navegação (styles.ts)", () => {
       renderWithTheme(<NavLink data-testid="nav-link-undefined">Link Indefinido</NavLink>);
       const link = screen.getByTestId("nav-link-undefined");
       
-      // Se não for passado, por padrão será falso na checagem do styled, adotando theme.colors.text
       expect(link).toBeInTheDocument();
       expect(link).toHaveStyle({ color: mockTheme.colors.text });
     });
@@ -93,10 +88,9 @@ describe("Componentes de Navegação (styles.ts)", () => {
 
   describe("Tratamento de Erros e Exceções", () => {
     it("trata falhas quando o componente renderiza sem o ThemeProvider providenciado", () => {
-      // Remover o theme do contexto deve lançar um erro do Emotion pois ele tentará ler undefined.colors
       expect(() => {
         render(<NavLink isActive={true}>Link Sem Tema</NavLink>);
-      }).toThrowError(); // Valida se o sistema interrompe a renderização para evitar falsos positivos
+      }).toThrowError();
       
       expect(consoleErrorMock).toHaveBeenCalled();
     });

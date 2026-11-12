@@ -1,10 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ListNav } from "./index";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
-// Mockamos o módulo de estilos para isolar a lógica do ListNav
-// e garantir que ele está repassando as props corretamente.
 vi.mock("./styles", () => ({
   navItem: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="mock-nav-item">{children}</div>
@@ -21,7 +19,6 @@ vi.mock("./styles", () => ({
   ),
 }));
 
-// 2. Fixtures / Mocks de dados base
 const mockValidoBase = {
   href: "/dashboard",
   children: "Dashboard",
@@ -46,7 +43,6 @@ describe("ListNav", () => {
       expect(navLink).toBeInTheDocument();
       expect(navLink).toHaveAttribute("href", "/dashboard");
       expect(navLink).toHaveTextContent("Dashboard");
-      // Verifica repasse do opcional como undefined no mínimo obrigatório
       expect(navLink).toHaveAttribute("data-isactive", "undefined"); 
     });
 
@@ -69,7 +65,6 @@ describe("ListNav", () => {
       expect(navLink).toHaveAttribute("data-isactive", "true");
       expect(navLink).toHaveTextContent("Configurações");
 
-      // Validando a ação do payload completo
       fireEvent.click(navLink);
       expect(onClickMock).toHaveBeenCalledTimes(1);
     });
@@ -113,8 +108,6 @@ describe("ListNav", () => {
 
   describe("Tratamento de Erros e Exceções", () => {
     it("não quebra a aplicação ao clicar em um link sem a prop onClick (fallback implícito)", () => {
-      // Como o onClick é opcional, garantir que o componente lida bem 
-      // quando um clique acontece mas a função não foi passada.
       render(
         <ListNav href={mockValidoBase.href}>
           {mockValidoBase.children}
@@ -123,7 +116,6 @@ describe("ListNav", () => {
 
       const navLink = screen.getByTestId("mock-nav-link");
       
-      // A ação de clique não deve lançar erros
       expect(() => fireEvent.click(navLink)).not.toThrow();
     });
 
@@ -137,13 +129,10 @@ describe("ListNav", () => {
 
       const navLink = screen.getByTestId("mock-nav-link");
       
-      // Simula double click / triple click rápidos
       fireEvent.click(navLink);
       fireEvent.click(navLink);
       fireEvent.click(navLink);
 
-      // O componente deve repassar todos os cliques fielmente, 
-      // delegando o tratamento de debounce para o pai, se existir.
       expect(onClickMock).toHaveBeenCalledTimes(3);
     });
   });

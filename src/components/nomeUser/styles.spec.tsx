@@ -2,10 +2,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
 import React from "react";
 import { userDiv as UserDiv, userName as UserName } from "./styles";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
-// Como os testes de CSS-in-JS em JSDOM podem ter limitações com media queries nativas, 
-// garantimos que o ambiente de teste não quebre em caso de validações de window.
 beforeAll(() => {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
@@ -22,7 +20,6 @@ beforeAll(() => {
   });
 });
 
-// 2. Fixtures / Mocks de dados base
 const mockThemeValido = {
   colors: { text: "#FFFFFF" },
   fontSizes: { h1: "32px" },
@@ -39,7 +36,7 @@ const mockThemeVazio = {
 
 const mockThemeLimites = {
   colors: { text: "transparent" },
-  fontSizes: { h1: "0" }, // Testando o edge case de "0" 
+  fontSizes: { h1: "0" },
   fonts: { jetbrains: "inherit" },
   breakpoints: { mobile: "0px" },
 };
@@ -55,8 +52,6 @@ describe("Styles Components (userDiv e userName)", () => {
       const divElement = container.firstChild as HTMLElement;
       
       expect(divElement).toBeInTheDocument();
-      // O Emotion gera classes de forma dinâmica. A validação real 
-      // confere se o componente renderiza corretamente a tag esperada.
       expect(divElement.tagName).toBe("DIV");
       expect(divElement.textContent).toBe("Conteúdo Div");
     });
@@ -80,8 +75,6 @@ describe("Styles Components (userDiv e userName)", () => {
       );
       const h1Element = container.firstChild as HTMLElement;
       
-      // O Emotion não deve quebrar ao receber strings vazias, 
-      // ele apenas gera o CSS com os valores omitidos ou vazios.
       expect(h1Element).toBeInTheDocument();
     });
 
@@ -95,7 +88,6 @@ describe("Styles Components (userDiv e userName)", () => {
     });
 
     it("rejeita valores acima do limite máximo permitido (comportamento de truncamento em CSS)", () => {
-      // Passando payloads massivos de CSS via theme para garantir que não ocorre estouro de memória
       const massiveTheme = {
         colors: { text: "A".repeat(10000) },
         fontSizes: { h1: "100000000vw" },
@@ -114,12 +106,8 @@ describe("Styles Components (userDiv e userName)", () => {
 
   describe("Tratamento de Erros e Exceções", () => {
     it("retorna null/falha quando a resposta for inválida (exceção por falta do provider/prop de tema)", () => {
-      // Desativamos temporariamente o console.error para evitar poluição no terminal do teste
-      // já que sabemos que o React vai gritar sobre o erro de desestruturação
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
       
-      // O componente `userName` necessita do `theme`. Sem ele, a interpolação: 
-      // `({theme}) => theme.colors.text` lançará um erro `TypeError: Cannot read properties of undefined`
       expect(() => {
         // @ts-expect-error - Forçando a ausência da prop `theme` para simular uma entrada malformatada
         render(<UserName>Sem Tema</UserName>);
@@ -135,7 +123,6 @@ describe("Styles Components (userDiv e userName)", () => {
 
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      // Valida se o contêiner lida com as exceções que possam borbulhar 
       expect(() => {
         render(
           <UserDiv>

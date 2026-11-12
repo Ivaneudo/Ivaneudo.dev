@@ -1,24 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Projetos } from "./projeto";
+import "@testing-library/jest-dom";
 
-// =============================================================
-// 1. Mocks globais e de dependências externas (no topo do arquivo)
-// =============================================================
-
-// Mock do react-i18next — controlado por teste
 const mockT = vi.fn((key: string) => key);
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: mockT }),
 }));
 
-// Mock de imports de imagem — Vitest não resolve PNG por padrão em ambiente jsdom
 vi.mock("../Img/vera-crianca.png", () => ({ default: "/mock/vera-crianca.png" }));
 vi.mock("../Img/limpo.png", () => ({ default: "/mock/limpo.png" }));
 vi.mock("../Img/fica-comigo.png", () => ({ default: "/mock/fica-comigo.png" }));
 vi.mock("../Img/arch.png", () => ({ default: "/mock/arch.png" }));
+vi.mock("../Img/ivaneandome.png", () => ({ default: "/mock/ivaneandome.png" }));
 
-// Mock do componente Projeto — expõe cada prop como data-attribute para assert
 vi.mock("../components/Projeto/index", () => ({
   Projeto: ({
     nome,
@@ -46,7 +41,6 @@ vi.mock("../components/Projeto/index", () => ({
       data-link={link ?? "__AUSENTE__"}
       data-tecnologias-count={tecnologias.length}
     >
-      {/* img principal do projeto — fiel ao componente real */}
       <img
         data-testid={`projeto-${nome}-img`}
         src={imagem}
@@ -57,7 +51,6 @@ vi.mock("../components/Projeto/index", () => ({
   ),
 }));
 
-// Mock dos estilos
 vi.mock("../components/conteiner/styles", () => ({
   Div: ({ children, ...props }: any) => (
     <div data-testid="container-div" {...props}>
@@ -70,11 +63,6 @@ vi.mock("../components/Text/styles", () => ({
   TextH2: ({ children }: any) => <h2 data-testid="text-h2">{children}</h2>,
 }));
 
-// =============================================================
-// 2. Fixtures / Helpers puros (refatoração booleana explícita)
-// =============================================================
-
-// Fonte única de verdade sobre os projetos esperados
 const PROJETOS_ESPERADOS = [
   {
     nome: "Raizes Digitais",
@@ -87,13 +75,13 @@ const PROJETOS_ESPERADOS = [
     temLink: true,
   },
   {
-    nome: "Limpo Serviço",
-    imagem: "/mock/limpo.png",
-    altKey: "projects.limpo.alt",
-    resumoKey: "projects.limpo.summary",
-    url: "https://github.com/Ivaneudo/Limpo",
-    link: "https://limpo.vercel.app/",
-    tecnologiasCount: 3,
+    nome: "Ivaneando.me",
+    imagem: "/mock/ivaneandome.png",
+    altKey: "projects.ivaneandome.alt",
+    resumoKey: "projects.ivaneandome.summary",
+    url: "https://github.com/Ivaneudo/Ivaneando.me",
+    link: "https://ivaneandome.vercel.app/",
+    tecnologiasCount: 2,
     temLink: true,
   },
   {
@@ -102,7 +90,7 @@ const PROJETOS_ESPERADOS = [
     altKey: "projects.ficaComigo.alt",
     resumoKey: "projects.ficaComigo.summary",
     url: "https://github.com/Ivaneudo/fica-comigo",
-    link: undefined, // não renderizado no componente (props omitidas)
+    link: undefined,
     tecnologiasCount: 3,
     temLink: false,
   },
@@ -112,9 +100,19 @@ const PROJETOS_ESPERADOS = [
     altKey: "projects.arch.alt",
     resumoKey: "projects.arch.summary",
     url: "https://github.com/Ivaneudo/Arch-Hyprland",
-    link: undefined, // sem link no componente
+    link: undefined,
     tecnologiasCount: 2,
     temLink: false,
+  },
+  {
+    nome: "Limpo Serviço",
+    imagem: "/mock/limpo.png",
+    altKey: "projects.limpo.alt",
+    resumoKey: "projects.limpo.summary",
+    url: "https://github.com/Ivaneudo/Limpo",
+    link: "https://limpo.vercel.app/",
+    tecnologiasCount: 3,
+    temLink: true,
   },
 ] as const;
 
@@ -123,7 +121,6 @@ const TODAS_AS_CHAVES_I18N = [
   ...PROJETOS_ESPERADOS.flatMap((p) => [p.altKey, p.resumoKey]),
 ] as const;
 
-// Helpers puros com retorno booleano explícito
 const chaveFoiTraduzida = (key: string): boolean =>
   mockT.mock.calls.some(([k]) => k === key);
 
@@ -135,17 +132,12 @@ const projetoRecebeuLink = (nome: string): boolean => {
   return el.getAttribute("data-link") !== "__AUSENTE__";
 };
 
-// =============================================================
-// 3. Suite de testes
-// =============================================================
-
 describe("Projetos", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockT.mockImplementation((key: string) => key);
   });
 
-  // -----------------------------------------------------------
   describe("Caminho Feliz (Happy Path)", () => {
     it("renderiza o container principal com id 'projetos'", () => {
       render(<Projetos />);
@@ -159,13 +151,12 @@ describe("Projetos", () => {
       expect(screen.getByTestId("text-h2")).toHaveTextContent("projects.title");
     });
 
-    it("renderiza exatamente 4 projetos", () => {
+    it("renderiza exatamente 5 projetos", () => {
       render(<Projetos />);
       const projetos = screen.getAllByTestId(/^projeto-[^-]+.*(?<!-tecnologias)$/);
-      // Alternativa mais simples: contar pelos data-nome
       const todos = document.querySelectorAll("[data-nome]");
-      expect(todos).toHaveLength(4);
-      expect(projetos.length).toBeGreaterThanOrEqual(4);
+      expect(todos).toHaveLength(5);
+      expect(projetos.length).toBeGreaterThanOrEqual(5);
     });
 
     it.each(PROJETOS_ESPERADOS)(
@@ -187,7 +178,7 @@ describe("Projetos", () => {
         const el = screen.getByTestId(`projeto-${nome}-tecnologias`);
         return el.children.length;
       });
-      expect(contagens).toEqual([3, 3, 3, 2]);
+      expect(contagens).toEqual([3, 2, 3, 2, 3]);
     });
   });
 
@@ -219,25 +210,25 @@ describe("Projetos", () => {
       expect(projetoRecebeuLink("Arch + Hyprland")).toBe(false);
     });
 
-    it("exatamente 2 projetos recebem link e 2 não recebem", () => {
+    it("exatamente 3 projetos recebem link e 2 não recebem", () => {
       render(<Projetos />);
       const comLink = PROJETOS_ESPERADOS.filter((p) => projetoRecebeuLink(p.nome));
       const semLink = PROJETOS_ESPERADOS.filter((p) => !projetoRecebeuLink(p.nome));
-      expect(comLink).toHaveLength(2);
+      
+      expect(comLink).toHaveLength(3);
       expect(semLink).toHaveLength(2);
     });
   });
 
-  // -----------------------------------------------------------
   describe("Chamadas de i18n (cobertura total do t())", () => {
     it("chama t() para TODAS as chaves esperadas", () => {
       render(<Projetos />);
       expect(todasAsChavesForamTraduzidas()).toBe(true);
     });
 
-    it("chama t() exatamente 9 vezes (1 título + 4 alt + 4 resumo)", () => {
+    it("chama t() exatamente 11 vezes (1 título + 5 alt + 5 resumo)", () => {
       render(<Projetos />);
-      expect(mockT).toHaveBeenCalledTimes(9);
+      expect(mockT).toHaveBeenCalledTimes(11);
     });
 
     it("não chama t() para chaves inexistentes", () => {
@@ -257,7 +248,6 @@ describe("Projetos", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Validação de valores vazios e edge cases do i18n", () => {
     it("renderiza sem quebrar quando t() retorna string vazia", () => {
       mockT.mockReturnValue("");
@@ -279,10 +269,10 @@ describe("Projetos", () => {
       expect(() => render(<Projetos />)).not.toThrow();
     });
 
-    it("mantém os 4 projetos renderizados mesmo com t() vazio", () => {
+    it("mantém os 5 projetos renderizados mesmo com t() vazio", () => {
       mockT.mockReturnValue("");
       render(<Projetos />);
-      expect(document.querySelectorAll("[data-nome]")).toHaveLength(4);
+      expect(document.querySelectorAll("[data-nome]")).toHaveLength(5);
     });
 
     it("mantém os arrays de tecnologias intactos mesmo com t() vazio", () => {
@@ -291,7 +281,7 @@ describe("Projetos", () => {
       const contagens = PROJETOS_ESPERADOS.map(
         ({ nome }) => screen.getByTestId(`projeto-${nome}-tecnologias`).children.length
       );
-      expect(contagens).toEqual([3, 3, 3, 2]);
+      expect(contagens).toEqual([3, 2, 3, 2, 3]);
     });
 
     it("mantém URLs e imagens intactas mesmo com t() vazio (não são traduzíveis)", () => {
@@ -304,7 +294,6 @@ describe("Projetos", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Tratamento de Erros e Exceções", () => {
     it("propaga o erro se t() lançar exceção (sem i18n provider)", () => {
       mockT.mockImplementation(() => {
@@ -341,13 +330,12 @@ describe("Projetos", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Consistência estrutural e unicidade", () => {
-    it("mantém a estrutura Div > TextH2 + 4 Projetos", () => {
+    it("mantém a estrutura Div > TextH2 + 5 Projetos", () => {
       render(<Projetos />);
       const container = screen.getByTestId("container-div");
       expect(container).toContainElement(screen.getByTestId("text-h2"));
-      expect(document.querySelectorAll("[data-nome]")).toHaveLength(4);
+      expect(document.querySelectorAll("[data-nome]")).toHaveLength(5);
     });
 
     it("nomes dos projetos são únicos (key prop correta no map implícito)", () => {

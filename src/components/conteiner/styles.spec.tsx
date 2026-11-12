@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-// Alias para PascalCase garantindo que o React os reconheça como componentes JSX
 import { 
   conteinerGlobal as ConteinerGlobal, 
   containerSection as ContainerSection, 
@@ -12,13 +11,8 @@ import {
   Redes 
 } from "./styles";
 
-// 1. Mocks globais e de dependências externas
-// Como os componentes dependem diretamente do React DOM e do Emotion,
-// vamos mockar o console.error temporariamente nos testes de falha 
-// para manter a saída do terminal limpa.
 const consoleErrorMock = vi.spyOn(console, "error").mockImplementation(() => {});
 
-// 2. Fixtures / Mocks de dados base
 const mockThemeValido = {
   colors: { background: "#123456" },
   breakpoints: { mobile: "768px" },
@@ -47,12 +41,9 @@ describe("Styles Components (styles.ts)", () => {
     });
 
     it("valida o payload completo com dados opcionais injetando o tema nos componentes dinâmicos", () => {
-      // Testa a linha de interpolação do theme.colors.background
       const { container: globalNode } = render(<ConteinerGlobal theme={mockThemeValido} />);
       expect(globalNode.firstChild).toBeInTheDocument();
-      // Se usar o @testing-library/jest-dom: expect(globalNode.firstChild).toHaveStyle({ backgroundColor: '#123456' });
 
-      // Testa a linha de interpolação do theme.breakpoints.mobile
       const { container: projetosNode } = render(<Projetos theme={mockThemeValido} />);
       expect(projetosNode.firstChild).toBeInTheDocument();
     });
@@ -90,8 +81,7 @@ describe("Styles Components (styles.ts)", () => {
 
   describe("Tratamento de Erros e Exceções", () => {
     it("retorna falha (lança exceção) quando o objeto de theme é malformatado ou ausente", () => {
-      // O comportamento esperado quando acessamos sub-propriedades de undefined (ex: theme.colors.background)
-      // é disparar um TypeError no JS/React.
+
       const themeInvalido = {} as any;
 
       expect(() => {

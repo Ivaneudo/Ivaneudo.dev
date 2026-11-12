@@ -1,14 +1,23 @@
 import { render } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { navDiv as NavDiv, HamburgerButton, navList as NavList, SwitcherWrapper } from "./styles";
+import {
+  navDiv as NavDiv,
+  HamburgerButton,
+  navList as NavList,
+  SwitcherWrapper,
+  ThemeButton,
+  IconButton,
+} from "./styles";
+import "@testing-library/jest-dom";
 
-// 1. Mocks e Fixtures de dados base
 const mockTheme = {
   colors: {
     border: "#e0e0e0",
     background: "#ffffff",
     bold: "#000000",
+    primary: "#2563eb",
+    codeBg: "#f1f5f9",
   },
   breakpoints: {
     mobile: "768px",
@@ -63,6 +72,22 @@ describe("styles.ts - Styled Components", () => {
       
       expect(element).toBeInTheDocument();
       expect(element.tagName).toBe("LI");
+    });
+
+    it("renderiza o ThemeButton com as propriedades de tema padrão", () => {
+      const { container } = renderWithTheme(<ThemeButton data-testid="theme-btn" />);
+      const element = container.firstChild as HTMLElement;
+
+      expect(element).toBeInTheDocument();
+      expect(element.tagName).toBe("BUTTON");
+    });
+
+    it("renderiza o IconButton com as propriedades de tema padrão", () => {
+      const { container } = renderWithTheme(<IconButton data-testid="icon-btn" />);
+      const element = container.firstChild as HTMLElement;
+
+      expect(element).toBeInTheDocument();
+      expect(element.tagName).toBe("BUTTON");
     });
   });
 

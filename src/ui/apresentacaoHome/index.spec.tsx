@@ -2,35 +2,29 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { ApresentacaoHome } from "./index";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
-
-// Mock do hook de tradução
 const mockUseTranslation = vi.fn();
 vi.mock("react-i18next", () => ({
   useTranslation: () => mockUseTranslation(),
 }));
 
-// Mock do asset de imagem
 vi.mock("../../Img/ivaneudo.png", () => ({
   default: "mocked-ivaneudo-img.png",
 }));
 
-// Mock do componente Icons
 vi.mock("../../components/IconsDigitais", () => ({
   Icons: ({ src, alt }: { src: string; alt: string }) => (
     <img data-testid="mock-icon" src={src} alt={alt} />
   ),
 }));
 
-// Mock dos componentes de texto estilizados para isolamento
 vi.mock("../../components/Text/styles", () => ({
   Cargo: ({ children }: { children: React.ReactNode }) => <h1>{children}</h1>,
   Resumo: ({ children }: { children: React.ReactNode }) => <p>{children}</p>,
   TextSpan: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
 }));
 
-// 2. Fixtures / Mocks de dados base
 const mockTheme = {
   breakpoints: {
     mobile: "768px",
@@ -56,7 +50,6 @@ const mockTranslationsValidas = (key: string) => {
   return translations[key] || key;
 };
 
-// Utilitário para renderizar com o ThemeProvider
 const renderWithTheme = (ui: React.ReactElement) => {
   return render(<ThemeProvider theme={mockTheme}>{ui}</ThemeProvider>);
 };
@@ -65,7 +58,6 @@ describe("ApresentacaoHome Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     
-    // Configuração padrão do mock de tradução para o Caminho Feliz
     mockUseTranslation.mockReturnValue({
       t: vi.fn().mockImplementation(mockTranslationsValidas),
     });
@@ -75,12 +67,10 @@ describe("ApresentacaoHome Component", () => {
     it("renderiza o payload mínimo obrigatório com avatar, textos traduzidos e estrutura", () => {
       renderWithTheme(<ApresentacaoHome />);
       
-      // Valida Avatar
       const avatar = screen.getByAltText("Avatar do Ivaneudo");
       expect(avatar).toBeInTheDocument();
       expect(avatar).toHaveAttribute("src", "mocked-ivaneudo-img.png");
 
-      // Valida Textos da Tradução (Cargo e Resumo) usando regex parcial ou ignorando espaços nas pontas
       expect(screen.getByText(/Desenvolvedor/i)).toBeInTheDocument();
       expect(screen.getByText("Full Stack")).toBeInTheDocument();
       expect(screen.getByText(/Sênior/i)).toBeInTheDocument();
@@ -92,10 +82,8 @@ describe("ApresentacaoHome Component", () => {
       
       const icons = screen.getAllByTestId("mock-icon");
       
-      // Verifica limite exato do array estático (N = 8)
       expect(icons).toHaveLength(8);
       
-      // Verifica integridade dos dados repassados ao componente filho
       expect(icons[0]).toHaveAttribute("alt", "react");
       expect(icons[0]).toHaveAttribute("src", "https://skillicons.dev/icons?i=react");
       

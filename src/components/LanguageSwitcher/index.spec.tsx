@@ -3,11 +3,30 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { LanguageSwitcher } from "./index";
 import { useTranslation } from "react-i18next";
 import { ThemeProvider } from "@emotion/react"; // Ou 'styled-components'
+import "@testing-library/jest-dom";
 
-// IMPORTANTE: Importe o objeto de tema real da sua aplicação aqui
-import { theme } from "../../Layout/GlobalTheme"; // Ajuste o caminho relativo para o seu arquivo de tema
+const mockTheme = {
+  colors: {
+    border: "#e2e8f0",
+    text: "#0f172a",
+    bold: "#000000",
+    background: "#ffffff",
+  },
+  fonts: {
+    jetbrains: "'JetBrains Mono', monospace",
+  },
+  fontSizes: {
+    medium: "1rem",
+  },
+  breakpoints: {
+    mobile: "768px",
+  },
+};
 
-// 1. Mocks globais e de dependências externas
+const renderWithTheme = (ui: React.ReactElement) => {
+  return render(<ThemeProvider theme={mockTheme}>{ui}</ThemeProvider>);
+};
+
 const changeLanguageMock = vi.fn();
 
 vi.mock("react-i18next", () => ({
@@ -26,10 +45,6 @@ const mockUseTranslation = (language: string | undefined | null) => {
       changeLanguage: changeLanguageMock,
     },
   });
-};
-
-const renderWithTheme = (ui: React.ReactElement) => {
-  return render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
 };
 
 describe("LanguageSwitcher", () => {

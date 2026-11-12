@@ -1,10 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { darkTheme, theme } from "./GlobalTheme";
+import { darkTheme, lightTheme } from "./GlobalTheme";
+import "@testing-library/jest-dom";
 
 describe("GlobalTheme", () => {
   beforeEach(() => {
-    // Como é um arquivo de constantes, não há mocks de rede para limpar,
-    // mas mantemos o padrão estabelecido pelo template de testes.
     vi.clearAllMocks();
   });
 
@@ -17,9 +16,12 @@ describe("GlobalTheme", () => {
       expect(darkTheme).toHaveProperty("breakpoints");
     });
 
-    it("valida que a exportação `theme` é um alias exato e compartilha a mesma referência de `darkTheme`", () => {
-      expect(theme).toBe(darkTheme); // Checa a referência de memória
-      expect(theme).toEqual(darkTheme); // Checa os valores internos
+    it("valida o payload completo das propriedades obrigatórias do lightTheme", () => {
+      expect(lightTheme).toBeDefined();
+      expect(lightTheme).toHaveProperty("fonts");
+      expect(lightTheme).toHaveProperty("colors");
+      expect(lightTheme).toHaveProperty("fontSizes");
+      expect(lightTheme).toHaveProperty("breakpoints");
     });
   });
 
@@ -31,10 +33,16 @@ describe("GlobalTheme", () => {
 
     it("valida as propriedades e paleta hexadecimal exata de cores (colors)", () => {
       expect(darkTheme.colors.background).toBe("#191A1B");
-      expect(darkTheme.colors.backgroundCard).toBe("#D9D9D9");
-      expect(darkTheme.colors.text).toBe("#fff");
+      expect(darkTheme.colors.surface).toBe("#202224");
+      expect(darkTheme.colors.surfaceBorder).toBe("#2E3033");
+      expect(darkTheme.colors.text).toBe("#F2F2F2");
+      expect(darkTheme.colors.textMuted).toBe("#9E9E9E");
+      expect(darkTheme.colors.primary).toBe("#C90000");
+      expect(darkTheme.colors.primaryHover).toBe("#A00000");
+      expect(darkTheme.colors.codeBg).toBe("#121314");
+      expect(darkTheme.colors.backgroundCard).toBe("#202224");
       expect(darkTheme.colors.bold).toBe("#C90000");
-      expect(darkTheme.colors.border).toBe("#C90000");
+      expect(darkTheme.colors.border).toBe("#2E3033");
     });
 
     it("valida a escala e as unidades exatas dos tamanhos de fonte (fontSizes)", () => {
@@ -60,11 +68,9 @@ describe("GlobalTheme", () => {
 
   describe("Tratamento de Vazios/Opcionais", () => {
     it("garante que nenhum valor de configuração no tema é undefined, null, string vazia ou zero", () => {
-      // Extrai todas as categorias do tema (fonts, colors, etc.)
       const themeCategories = Object.values(darkTheme);
       
       themeCategories.forEach((category) => {
-        // Extrai todos os valores internos de cada categoria
         const categoryValues = Object.values(category);
         
         categoryValues.forEach((value) => {

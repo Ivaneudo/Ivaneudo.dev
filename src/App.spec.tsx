@@ -1,15 +1,31 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { App } from "./App";
+import "@testing-library/jest-dom";
 
-// =============================================================
-// 1. Mocks globais e de dependências externas (no topo do arquivo)
-// =============================================================
+vi.mock("@emotion/react", () => ({
+  ThemeProvider: ({ children }: any) => <>{children}</>,
+  Global: () => null,
+}));
 
-// Mock de TODOS os filhos — App só orquestra, não testa comportamento interno.
-// Cada filho real já tem seu próprio .spec.tsx.
+vi.mock("./Layout/GlobalTheme", () => ({
+  darkTheme: { mode: "dark" },
+  lightTheme: { mode: "light" },
+}));
+
+vi.mock("./Layout/GlobalStyle", () => ({
+  GlobalStyle: vi.fn(() => ({})),
+}));
+
 vi.mock("./ui/navBar", () => ({
-  NavBar: () => <nav data-testid="nav-bar">NavBar</nav>,
+  NavBar: ({ onToggleTheme, isDark }: any) => (
+    <nav data-testid="nav-bar" data-theme={isDark ? "dark" : "light"}>
+      NavBar
+      <button data-testid="toggle-theme-btn" onClick={onToggleTheme}>
+        Toggle
+      </button>
+    </nav>
+  ),
 }));
 
 vi.mock("./page/home", () => ({
@@ -24,7 +40,6 @@ vi.mock("./page/sobre-mim", () => ({
   SobreMim: () => <section data-testid="page-sobre-mim">SobreMim</section>,
 }));
 
-// Mock do container de estilos raiz
 vi.mock("../src/components/conteiner/styles", () => ({
   conteinerGlobal: ({ children, ...props }: any) => (
     <main data-testid="container-global" {...props}>
@@ -33,11 +48,6 @@ vi.mock("../src/components/conteiner/styles", () => ({
   ),
 }));
 
-// =============================================================
-// 2. Fixtures / Helpers puros (retornos booleanos explícitos)
-// =============================================================
-
-// Ordem esperada dos filhos diretos dentro do container raiz
 const ORDEM_ESPERADA = ["nav-bar", "page-home", "page-projetos", "page-sobre-mim"] as const;
 
 const filhoEstaDentroDoContainer = (testId: string): boolean => {
@@ -64,16 +74,11 @@ const ordemEstaCorreta = (): boolean => {
   return real.every((testId, i) => testId === ORDEM_ESPERADA[i]);
 };
 
-// =============================================================
-// 3. Suite de testes
-// =============================================================
-
 describe("App", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  // -----------------------------------------------------------
   describe("Caminho Feliz (Happy Path)", () => {
     it("renderiza sem lançar exceção", () => {
       expect(() => render(<App />)).not.toThrow();
@@ -119,7 +124,6 @@ describe("App", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Contrato de composição (ordem dos filhos)", () => {
     it("respeita a ordem NavBar → Home → Projetos → SobreMim", () => {
       render(<App />);
@@ -152,7 +156,6 @@ describe("App", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Hierarquia (todos os filhos DENTRO do container raiz)", () => {
     it("todos os filhos estão aninhados no container global", () => {
       render(<App />);
@@ -185,17 +188,11 @@ describe("App", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Tratamento de Erros e Exceções", () => {
     it("propaga o erro se um filho lançar na renderização (sem ErrorBoundary)", () => {
-      // App não tem ErrorBoundary próprio — o erro do filho deve subir.
-      // Validamos o contrato observando que o componente pai não silencia erros
-      // do container; se um ErrorBoundary for adicionado no futuro,
-      // este teste deve ser revisado.
       const ContainerQueLanca = () => {
         throw new Error("container crash");
       };
-      // Simulação via componente local (não re-mocka o módulo real):
       expect(() => render(<ContainerQueLanca />)).toThrow("container crash");
     });
 
@@ -206,14 +203,18 @@ describe("App", () => {
       fetchSpy.mockRestore();
     });
 
-    it("não acessa localStorage/sessionStorage", () => {
-      const lsSpy = vi.spyOn(Storage.prototype, "getItem");
-      const ssSpy = vi.spyOn(Storage.prototype, "setItem");
+    it("gerencia e persiste o tema padrão no localStorage ao montar", () => {
+      localStorage.clear();
+      const getItemSpy = vi.spyOn(Storage.prototype, "getItem");
+      const setItemSpy = vi.spyOn(Storage.prototype, "setItem");
+
       render(<App />);
-      expect(lsSpy).not.toHaveBeenCalled();
-      expect(ssSpy).not.toHaveBeenCalled();
-      lsSpy.mockRestore();
-      ssSpy.mockRestore();
+
+      expect(getItemSpy).toHaveBeenCalledWith("portfolio-theme");
+      expect(setItemSpy).toHaveBeenCalledWith("portfolio-theme", "dark");
+
+      getItemSpy.mockRestore();
+      setItemSpy.mockRestore();
     });
 
     it("não chama window.open (sem navegação programática)", () => {
@@ -224,7 +225,6 @@ describe("App", () => {
     });
   });
 
-  // -----------------------------------------------------------
   describe("Isolamento entre renderizações", () => {
     it("renderiza corretamente em múltiplas chamadas (sem estado residual)", () => {
       const { unmount } = render(<App />);
@@ -244,6 +244,38 @@ describe("App", () => {
       render(<App />);
       const segundo = obterOrdemRealDosFilhos();
       expect(segundo).toEqual(primeiro);
+    });
+  });
+
+  describe("Gerenciamento e alternância de tema", () => {
+    it("inicializa com tema light quando salvo previamente no localStorage", () => {
+      localStorage.setItem("portfolio-theme", "light");
+
+      render(<App />);
+
+      expect(screen.getByTestId("nav-bar")).toHaveAttribute("data-theme", "light");
+      expect(localStorage.getItem("portfolio-theme")).toBe("light");
+    });
+
+    it("alterna entre dark e light ao acionar onToggleTheme na NavBar", () => {
+      localStorage.clear();
+
+      render(<App />);
+
+      const navBar = screen.getByTestId("nav-bar");
+      const toggleBtn = screen.getByTestId("toggle-theme-btn");
+
+      expect(navBar).toHaveAttribute("data-theme", "dark");
+
+      fireEvent.click(toggleBtn);
+
+      expect(navBar).toHaveAttribute("data-theme", "light");
+      expect(localStorage.getItem("portfolio-theme")).toBe("light");
+
+      fireEvent.click(toggleBtn);
+
+      expect(navBar).toHaveAttribute("data-theme", "dark");
+      expect(localStorage.getItem("portfolio-theme")).toBe("dark");
     });
   });
 });

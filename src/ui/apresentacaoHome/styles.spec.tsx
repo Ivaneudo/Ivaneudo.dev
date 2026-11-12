@@ -2,16 +2,14 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { HomeDiv, Avatar, StacksDiv } from "./styles";
+import "@testing-library/jest-dom";
 
-// 1. Mocks globais e de dependências externas
-// Mockando o console.error para suprimir mensagens esperadas nos testes de exceção
 const originalConsoleError = console.error;
 vi.spyOn(console, "error").mockImplementation((...args) => {
   if (typeof args[0] === "string" && args[0].includes("The above error occurred")) return;
   originalConsoleError(...args);
 });
 
-// 2. Fixtures / Mocks de dados base
 const mockThemeValido = {
   breakpoints: {
     mobile: "768px",
@@ -20,13 +18,13 @@ const mockThemeValido = {
 
 const mockThemeBorda = {
   breakpoints: {
-    mobile: "0px", // Limite exato inferior
+    mobile: "0px", 
   },
 };
 
 const mockThemeVazio = {
   breakpoints: {
-    mobile: "", // Testando string vazia explicitamente
+    mobile: "",
   },
 };
 
@@ -91,8 +89,6 @@ describe("ApresentacaoHome Styles", () => {
     });
     
     it("rejeita quebras passando prop vazia no HomeDiv (componente sem props dinâmicas)", () => {
-      // HomeDiv não espera props específicas, mas enviamos valores vazios/nulos 
-      // para garantir que atributos HTML e o render do React não quebrem.
       const { container } = render(
         <HomeDiv id="" title={undefined} aria-label={null as unknown as string} />
       );
@@ -103,8 +99,6 @@ describe("ApresentacaoHome Styles", () => {
 
   describe("Tratamento de Erros e Exceções", () => {
     it("trata e lança exceção (falha) quando renderizado sem o ThemeProvider e a desestruturação do theme falha no Avatar", () => {
-      // Como o Emotion tenta acessar ${({ theme }) => theme.breakpoints.mobile}, 
-      // renderizar sem o ThemeProvider deve lançar um TypeError por 'breakpoints' ser undefined
       expect(() => render(<Avatar />)).toThrow();
     });
 
@@ -114,7 +108,7 @@ describe("ApresentacaoHome Styles", () => {
 
     it("trata falhas estruturais de payload malformatado no Theme (prop faltando)", () => {
       const themeMalFormatado = {
-        breakpoints: {} // mobile está explicitamente faltando (undefined)
+        breakpoints: {} 
       } as any;
 
       const { getByTestId } = render(
@@ -123,8 +117,6 @@ describe("ApresentacaoHome Styles", () => {
         </ThemeProvider>
       );
       
-      // Embora o CSS gerado vá ficar malformado (`@media (max-width: )`), 
-      // no lado do React ele deve sobreviver e retornar o DOM element sem crashar a execução javascript.
       expect(getByTestId("avatar-malformatado")).toBeInTheDocument();
     });
   });
