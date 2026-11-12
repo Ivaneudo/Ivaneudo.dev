@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Paintbrush } from 'lucide-react';
 import { ListNav } from '../../components/navList';
 import { Nome } from '../../components/nomeUser';
 import { LanguageSwitcher } from '../../components/LanguageSwitcher';
 import * as S from './styles';
 
-export const NavBar = () => {
+interface NavBarProps {
+  onToggleTheme: () => void;
+  isDark?: boolean; // Usado para mudar o 'title' do botão
+}
+
+export const NavBar = ({ onToggleTheme, isDark }: NavBarProps) => {
   const { t } = useTranslation();
   const [activeLink, setActiveLink] = useState('#home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,10 +48,18 @@ export const NavBar = () => {
           </ListNav>
         ))}
         
-        {/* Seletor de Idiomas inserido na NavBar */}
         <S.SwitcherWrapper>
           <LanguageSwitcher />
+          
+          {/* Botão padronizado com o seu outro projeto */}
+          <S.IconButton 
+            onClick={onToggleTheme} 
+            title={isDark ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
+          >
+            <Paintbrush size={30} />
+          </S.IconButton>
         </S.SwitcherWrapper>
+
       </S.navList>
     </S.navDiv>
   );

@@ -70,4 +70,46 @@ export const SwitcherWrapper = styled.li`
   list-style: none;
   display: flex;
   align-items: center;
+  gap: 1rem; 
+`;
+
+export const ThemeButton = styled.button`
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: ${({ theme }) => theme.colors.bold};
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.border};
+  }
+
+  svg {
+    width: 30px;
+    height: 24px;
+    fill: currentColor;
+  }
+`;
+
+export const IconButton = styled.button`
+  background: transparent;
+  border: none;
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.codeBg};
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `;

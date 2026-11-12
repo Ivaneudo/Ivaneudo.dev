@@ -1,19 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
-import { ThemeProvider } from '@emotion/react'
-import { theme } from './Layout/GlobalTheme'
-import { Global } from '@emotion/react'
-import { GlobalStyle } from './Layout/GlobalStyle'
 import './i18n'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <Global styles={GlobalStyle} />
-      <App />
-    </ThemeProvider>
+    <App />
   </StrictMode>,
 )
-
-
