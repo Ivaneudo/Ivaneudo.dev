@@ -1,4 +1,4 @@
-# Portfólio Pessoal (v2.0) 🚀
+# Portfólio Pessoal (v2.1) 🚀
 
 Bem-vindo ao repositório do meu portfólio profissional! Este projeto foi desenvolvido para apresentar meus projetos, habilidades e trajetórias na área de desenvolvimento de software.
 
