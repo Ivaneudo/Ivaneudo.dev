@@ -16,6 +16,10 @@
       "alt": "Sitio web del movimiento Vera Criança",
       "summary": "Proyecto ideado por mí y la clase de Informática de la EEEP Joaquim Antônio Albano (2023-2025), donde lideré y gestioné dos acciones principales: el desarrollo del sitio web para el Movimiento Vera Criança y una inmersión en tecnología para clases de 9º grado de primaria."
     },
+    "ivaneandome": {
+      "alt": "Sitio web de Ivaneando.me",
+      "summary": "Mi blog personal, creado con el objetivo de compartir mis experiencias, aprendizajes y reflexiones sobre tecnología, desarrollo de software y otros temas que me interesan. El sitio está desarrollado con React, Next.js y Tailwind CSS, ofreciendo una experiencia de lectura agradable e interactiva."
+    },
     "limpo": {
       "alt": "Sitio web de Limpo Servicios",
       "summary": "Sitio web institucional desarrollado con el objetivo de profundizar estudios en Angular, rediseñando y mejorando la estructura y experiencia visual de una plataforma proveedora de servicios."

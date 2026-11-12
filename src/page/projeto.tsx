@@ -6,6 +6,7 @@ import raizesDigitaisImg from "../Img/vera-crianca.png"
 import limpoImg from "../Img/limpo.png"
 import ficaComiog from "../Img/fica-comigo.png"
 import arch from "../Img/arch.png"
+import ivaneandome from "../Img/ivaneandome.png"
 
 export const Projetos = () => {
   const { t } = useTranslation();
@@ -27,6 +28,44 @@ export const Projetos = () => {
           <img key="js" src="https://skillicons.dev/icons?i=js" height="30" alt="javascript" />,
         ]}
       />
+
+      <Projeto 
+        nome="Ivaneando.me"
+        imagem={ivaneandome}
+        altImg={t('projects.ivaneandome.alt')}
+        resumo={t('projects.ivaneandome.summary')}
+        url="https://github.com/Ivaneudo/Ivaneando.me"
+        link="https://ivaneandome.vercel.app/"
+        tecnologias={[
+          <img key="html" src="https://skillicons.dev/icons?i=next" height="30" alt="next" />,
+          <img key="css" src="https://skillicons.dev/icons?i=tailwind" height="30" alt="tailwind" />,
+        ]}
+      />
+
+      <Projeto 
+        nome="Fica Comigo"
+        imagem={ficaComiog}
+        altImg={t('projects.ficaComigo.alt')}
+        resumo={t('projects.ficaComigo.summary')}
+        url="https://github.com/Ivaneudo/fica-comigo"
+        tecnologias={[
+          <img key="react" src="https://skillicons.dev/icons?i=react" height="30" alt="react" />,
+          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
+          <img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" />,
+        ]}
+      />
+
+      <Projeto 
+        nome="Arch + Hyprland"
+        imagem={arch}
+        altImg={t('projects.arch.alt')}
+        resumo={t('projects.arch.summary')}
+        url="https://github.com/Ivaneudo/Arch-Hyprland"
+        tecnologias={[
+          <img key="lua" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" height="30" alt="Lua" />,
+          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
+        ]}
+      />
       
       <Projeto 
         nome="Limpo Serviço"
@@ -41,31 +80,7 @@ export const Projetos = () => {
           <img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" />,
         ]}
       />
-      
-      <Projeto 
-        nome="Fica Comigo"
-        imagem={ficaComiog}
-        altImg={t('projects.ficaComigo.alt')}
-        resumo={t('projects.ficaComigo.summary')}
-        url="https://github.com/Ivaneudo/fica-comigo"
-        tecnologias={[
-          <img key="react" src="https://skillicons.dev/icons?i=react" height="30" alt="react" />,
-          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
-          <img key="ts" src="https://skillicons.dev/icons?i=ts" height="30" alt="typescript" />,
-        ]}
-      />
-      
-      <Projeto 
-        nome="Arch + Hyprland"
-        imagem={arch}
-        altImg={t('projects.arch.alt')}
-        resumo={t('projects.arch.summary')}
-        url="https://github.com/Ivaneudo/Arch-Hyprland"
-        tecnologias={[
-          <img key="lua" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" height="30" alt="Lua" />,
-          <img key="css" src="https://skillicons.dev/icons?i=css" height="30" alt="css" />,
-        ]}
-      />
+
     </Div>
   )
 }

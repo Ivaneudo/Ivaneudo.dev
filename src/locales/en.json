@@ -16,6 +16,10 @@
       "alt": "Vera Criança movement website",
       "summary": "Project conceived by me and the IT class of EEEP Joaquim Antônio Albano (2023-2025), where I led and managed two main actions: the development of the website for the Vera Criança Movement and a technology immersion for 9th-grade elementary school classes."
     },
+    "ivaneandome": {
+      "alt": "Ivaneando.me website",
+      "summary": "My personal blog, created to share my experiences, insights, and thoughts on technology, software development, and other topics that interest me. Built with React, Next.js, and Tailwind CSS, the site provides a clean and interactive reading experience."
+    },
     "limpo": {
       "alt": "Limpo Serviços website",
       "summary": "Institutional website developed to deepen studies in Angular, redesigning and improving the visual structure and experience of a service provider platform."

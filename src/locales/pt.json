@@ -16,6 +16,10 @@
       "alt": "Site do movimento Vera Criança",
       "summary": "Projeto idealizado por mim e pela turma de Informática da EEEP Joaquim Antônio Albano (2023-2025), onde liderei e gerenciei duas ações principais: o desenvolvimento do site para o Movimento Vera Criança e a realização de uma imersão no mundo da tecnologia para turmas do 9º ano do Ensino Fundamental."
     },
+    "ivaneandome": {
+      "alt": "Site do Ivaneando.me",
+      "summary": "Meu blog pessoal, desenvolvido com o objetivo de compartilhar minhas experiências, aprendizados e reflexões sobre tecnologia, desenvolvimento de software e outros assuntos que me interessam. O site é construído com React, Next.js e Tailwind CSS, proporcionando uma experiência de leitura agradável e interativa."
+    },
     "limpo": {
       "alt": "Site da Limpo Serviços",
       "summary": "Site institucional desenvolvido com o objetivo de aprofundar estudos na tecnologia Angular, redesenhando e aprimorando a estrutura e experiência visual de uma plataforma prestadora de serviços."
