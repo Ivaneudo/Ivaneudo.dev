@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "projects": "Proyectos",
+    "about": "Sobre mí"
+  },
+  "home": {
+    "rolePrefix": "Desarrollador ",
+    "roleHighlight": "Full-Stack",
+    "roleSuffix": "",
+    "summary": "Ingeniero de Software Full-Stack enfocado en crear aplicaciones web escalables, APIs robustas y experiencias digitales con impacto real."
+  },
+  "projects": {
+    "title": "Proyectos",
+    "raizes": {
+      "alt": "Sitio web del movimiento Vera Criança",
+      "summary": "Proyecto ideado por mí y la clase de Informática de la EEEP Joaquim Antônio Albano (2023-2025), donde lideré y gestioné dos acciones principales: el desarrollo del sitio web para el Movimiento Vera Criança y una inmersión en tecnología para clases de 9º grado de primaria."
+    },
+    "ivaneandome": {
+      "alt": "Sitio web de Ivaneando.me",
+      "summary": "Mi blog personal, creado con el objetivo de compartir mis experiencias, aprendizajes y reflexiones sobre tecnología, desarrollo de software y otros temas que me interesan. El sitio está desarrollado con React, Next.js y Tailwind CSS, ofreciendo una experiencia de lectura agradable e interactiva."
+    },
+    "limpo": {
+      "alt": "Sitio web de Limpo Servicios",
+      "summary": "Sitio web institucional desarrollado con el objetivo de profundizar estudios en Angular, rediseñando y mejorando la estructura y experiencia visual de una plataforma proveedora de servicios."
+    },
+    "ficaComigo": {
+      "alt": "Aplicación Fica Comigo",
+      "summary": "Aplicación desarrollada durante un Hackathon Flash en la asignatura de Gestión de Startups, donde actué como desarrollador principal. El objetivo del proyecto es ofrecer apoyo a personas en vulnerabilidad psicológica mediante estrategias de reducción de ansiedad, contacto con voluntarios y derivación rápida a canales de emergencia como CVV y SAMU."
+    },
+    "arch": {
+      "alt": "Interfaz de Hyprland",
+      "summary": "Repositorio desarrollado para ayudar a los nuevos usuarios del mundo Arch a lograr un sistema simple, hermoso y funcional. El repositorio también es un medio para recuperar el sistema en caso de incidentes."
+    }
+  },
+  "about": {
+    "title": "Sobre mí",
+    "block1": {
+      "p1": "👋 ¡Hola a todos! Soy Ivaneudo, ",
+      "hl1": "Desarrollador Full-Stack B2G, Técnico en Informática",
+      "p2": " y estudiante de ",
+      "hl2": "Ingeniería de Software",
+      "p3": " en INBEC con beca completa. Además de mi trabajo en el mercado, dedico mi tiempo como ",
+      "hl3": "Investigador Académico, Líder de Clase",
+      "p4": " y ",
+      "hl4": "Voluntario en el Movimiento Vera Criança",
+      "p5": " desde 2023."
+    },
+    "block2": {
+      "p1": "En mi día a día B2G, desarrollo aplicaciones enfocadas en ",
+      "hl1": "React y Quarkus",
+      "p2": ", trayendo también una base sólida en",
+      "hl2": " Java y SAP ABAP",
+      "p3": ". Apasionado por el ecosistema Linux 🐧, mi pasatiempo actual es ",
+      "hl3": "probar los límites de personalización de distribuciones",
+      "p4": ", aventurándome en",
+      "hl4": " Arch Linux con Hyprland ",
+      "p5": "."
+    },
+    "languagesTitle": "Idiomas:",
+    "languages": "🇧🇷 Portugués (Nativo) | 🇪🇦 Español (Intermedio) | 🇨🇦 Inglés (Básico)",
+    "socialTitle": "Mis redes sociales",
+    "socialDesc": "Para saber más sobre mí, visita mis redes sociales:"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About me"
+  },
+  "home": {
+    "rolePrefix": "",
+    "roleHighlight": "Full-Stack",
+    "roleSuffix": " Developer",
+    "summary": "Full-Stack Software Engineer focused on building scalable web applications, robust APIs, and digital experiences with real impact."
+  },
+  "projects": {
+    "title": "Projects",
+    "raizes": {
+      "alt": "Vera Criança movement website",
+      "summary": "Project conceived by me and the IT class of EEEP Joaquim Antônio Albano (2023-2025), where I led and managed two main actions: the development of the website for the Vera Criança Movement and a technology immersion for 9th-grade elementary school classes."
+    },
+    "ivaneandome": {
+      "alt": "Ivaneando.me website",
+      "summary": "My personal blog, created to share my experiences, insights, and thoughts on technology, software development, and other topics that interest me. Built with React, Next.js, and Tailwind CSS, the site provides a clean and interactive reading experience."
+    },
+    "limpo": {
+      "alt": "Limpo Serviços website",
+      "summary": "Institutional website developed to deepen studies in Angular, redesigning and improving the visual structure and experience of a service provider platform."
+    },
+    "ficaComigo": {
+      "alt": "Fica Comigo Application",
+      "summary": "Application developed during a Flash Hackathon in the Startup Management course, where I acted as the lead developer. The project's goal is to support people in psychological vulnerability through anxiety reduction strategies, contact with volunteers, and quick routing to emergency channels like CVV and SAMU."
+    },
+    "arch": {
+      "alt": "Hyprland Interface",
+      "summary": "Repository developed to help new users in the Arch world achieve a simple, beautiful, and functional system. The repository is also a way to recover the system in case of incidents."
+    }
+  },
+  "about": {
+    "title": "About me",
+    "block1": {
+      "p1": "👋 Hey everyone! I'm Ivaneudo, a ",
+      "hl1": "B2G Full-Stack Developer, IT Technician",
+      "p2": " and a ",
+      "hl2": "Software Engineering",
+      "p3": " undergraduate at INBEC with a full scholarship. Besides working in the market, I dedicate my time as an ",
+      "hl3": "Academic Researcher, Class Leader",
+      "p4": " and ",
+      "hl4": "Volunteer at the Vera Criança Movement",
+      "p5": " since 2023."
+    },
+    "block2": {
+      "p1": "In my B2G daily routine, I develop applications focused on ",
+      "hl1": "React and Quarkus",
+      "p2": ", also bringing a solid background in",
+      "hl2": " Java and SAP ABAP",
+      "p3": ". Passionate about the Linux ecosystem 🐧, my current hobby is ",
+      "hl3": "testing the customization limits of distributions",
+      "p4": ", adventuring into",
+      "hl4": " Arch Linux with Hyprland ",
+      "p5": "."
+    },
+    "languagesTitle": "Languages:",
+    "languages": "🇧🇷 Portuguese (Native) | 🇪🇦 Spanish (Intermediate) | 🇨🇦 English (Basic)",
+    "socialTitle": "My social networks",
+    "socialDesc": "To learn more about me, visit my social networks:"
+  }
+}
