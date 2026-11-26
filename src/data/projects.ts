@@ -2,6 +2,7 @@ import type { StackItem } from './stacks';
 
 export type ProjectTranslationKey =
   | 'raizes'
+  | 'acerbook'
   | 'ivaneandome'
   | 'limpo'
   | 'ficaComigo'
@@ -27,6 +28,17 @@ export const PROJECTS_DATA: ProjectItem[] = [
       { id: 'react', alt: 'React', src: 'https://skillicons.dev/icons?i=react' },
       { id: 'ts', alt: 'TypeScript', src: 'https://skillicons.dev/icons?i=ts' },
       { id: 'tailwind', alt: 'Tailwind CSS', src: 'https://skillicons.dev/icons?i=tailwind' },
+    ],
+  },
+  {
+    id: 'acerbook',
+    title: 'Acerbook',
+    image: '/images/projects/acerbook.png',
+    liveUrl: 'https://acerbook.vercel.app/',
+    githubUrl: 'https://github.com/Ivaneudo/Acerbook',
+    stacks: [
+      { id: 'react', alt: 'React', src: 'https://skillicons.dev/icons?i=react' },
+      { id: 'emotion', alt: 'Emotion', src: 'https://skillicons.dev/icons?i=emotion' },
     ],
   },
   {
