@@ -412,10 +412,18 @@ export const ErrorBanner = styled.div`
 
 export const ModalFooter = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 12px;
   padding-top: 8px;
+`;
+
+export const ModalFooterRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
 `;
 
 export const PrimarySubmitButton = styled.button`
@@ -438,5 +446,97 @@ export const PrimarySubmitButton = styled.button`
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+`;
+
+export const DeleteConfirmBox = styled.div`
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(201, 0, 0, 0.08);
+  border: 1px solid rgba(201, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const DeleteConfirmText = styled.p`
+  font-size: 14px;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.text};
+
+  strong {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+export const DeleteConfirmActions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+
+export const DangerOutlineButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background-color: transparent;
+  border: 1px solid rgba(201, 0, 0, 0.45);
+  color: #ef4444;
+  font-family: ${({ theme }) => theme.fonts.jetbrains};
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(201, 0, 0, 0.12);
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+export const DangerSolidButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-family: ${({ theme }) => theme.fonts.jetbrains};
+  font-size: 13px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #b91c1c;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+export const SecondaryButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.surfaceBorder};
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.jetbrains};
+  font-size: 13px;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    border-color: ${({ theme }) => theme.colors.textMuted};
   }
 `;

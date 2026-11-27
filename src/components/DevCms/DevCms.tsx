@@ -1,5 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Check, FolderPlus, Home, Save, Type, Upload, User, Wrench, X } from 'lucide-react';
+import {
+  Check,
+  FolderPlus,
+  Home,
+  Save,
+  Trash2,
+  Type,
+  Upload,
+  User,
+  Wrench,
+  X,
+} from 'lucide-react';
 import ptJson from '../../i18n/pt.json';
 import enJson from '../../i18n/en.json';
 import esJson from '../../i18n/es.json';
@@ -9,6 +20,11 @@ import {
   CheckboxLabel,
   CloseButton,
   CustomStackRow,
+  DangerOutlineButton,
+  DangerSolidButton,
+  DeleteConfirmActions,
+  DeleteConfirmBox,
+  DeleteConfirmText,
   DevBadge,
   ErrorBanner,
   FieldGroupGrid,
@@ -26,10 +42,12 @@ import {
   ModalBody,
   ModalDialog,
   ModalFooter,
+  ModalFooterRight,
   ModalHeader,
   ModalTitle,
   PreviewThumb,
   PrimarySubmitButton,
+  SecondaryButton,
   SectorTabButton,
   SectorTabsBar,
   Select,
@@ -87,6 +105,7 @@ export const DevCms: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [sector, setSector] = useState<SectorType>('project');
   const [saving, setSaving] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -118,7 +137,6 @@ export const DevCms: React.FC = () => {
     es: { alt: '', summary: '' },
   });
 
-  // Lista unificada e sem duplicatas para o histórico rápido de stacks
   const quickStacks = useMemo(() => {
     const stacksMap = new Map<string, StackItem>();
 
@@ -140,7 +158,6 @@ export const DevCms: React.FC = () => {
     return Array.from(stacksMap.values());
   }, [customHistoryStacks, selectedStacks]);
 
-  // Estado dos setores de Textos Gerais (3 idiomas)
   const [textsState, setTextsState] = useState(() => ({
     pt: JSON.parse(JSON.stringify(ptJson)) as typeof ptJson,
     en: JSON.parse(JSON.stringify(enJson)) as typeof enJson,
@@ -166,6 +183,7 @@ export const DevCms: React.FC = () => {
 
   const resetProjectForm = () => {
     setSelectedExistingId('__new__');
+    setConfirmDelete(false);
     setProjectId('');
     setIdManuallyEdited(false);
     setProjectTitle('');
@@ -184,6 +202,8 @@ export const DevCms: React.FC = () => {
 
   const handleSelectProjectTarget = (targetId: string) => {
     setErrorMessage(null);
+    setConfirmDelete(false);
+
     if (targetId === '__new__') {
       resetProjectForm();
       return;
@@ -259,7 +279,7 @@ export const DevCms: React.FC = () => {
         try {
           localStorage.setItem(CUSTOM_STACKS_STORAGE_KEY, JSON.stringify(updated));
         } catch {
-          // Ignora erro de quota no localStorage
+          // Ignora erro de quota
         }
         return updated;
       });
@@ -310,10 +330,38 @@ export const DevCms: React.FC = () => {
       if (isNew) {
         resetProjectForm();
       }
+      setConfirmDelete(false);
       setIsOpen(false);
       setToastMessage(
         isNew ? 'Projeto adicionado e salvo com sucesso!' : 'Alterações do projeto salvas!'
       );
+    } catch (err) {
+      setErrorMessage(String(err));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeleteProject = async () => {
+    if (selectedExistingId === '__new__') return;
+
+    setErrorMessage(null);
+    setSaving(true);
+
+    try {
+      const response = await fetch('/__dev-cms/delete-project', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: selectedExistingId }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Erro ao excluir projeto.');
+
+      const deletedTitle = projectTitle || selectedExistingId;
+      resetProjectForm();
+      setIsOpen(false);
+      setToastMessage(`Projeto "${deletedTitle}" excluído com sucesso!`);
     } catch (err) {
       setErrorMessage(String(err));
     } finally {
@@ -392,6 +440,7 @@ export const DevCms: React.FC = () => {
         type="button"
         onClick={() => {
           setErrorMessage(null);
+          setConfirmDelete(false);
           setIsOpen(true);
         }}
       >
@@ -434,6 +483,7 @@ export const DevCms: React.FC = () => {
                 onClick={() => {
                   setSector('project');
                   setErrorMessage(null);
+                  setConfirmDelete(false);
                 }}
               >
                 <FolderPlus size={15} />
@@ -446,6 +496,7 @@ export const DevCms: React.FC = () => {
                 onClick={() => {
                   setSector('home');
                   setErrorMessage(null);
+                  setConfirmDelete(false);
                 }}
               >
                 <Home size={15} />
@@ -458,6 +509,7 @@ export const DevCms: React.FC = () => {
                 onClick={() => {
                   setSector('projectsTitle');
                   setErrorMessage(null);
+                  setConfirmDelete(false);
                 }}
               >
                 <Type size={15} />
@@ -470,6 +522,7 @@ export const DevCms: React.FC = () => {
                 onClick={() => {
                   setSector('about');
                   setErrorMessage(null);
+                  setConfirmDelete(false);
                 }}
               >
                 <User size={15} />
@@ -654,13 +707,53 @@ export const DevCms: React.FC = () => {
                   </LangGrid>
                 </FieldWrapper>
 
+                {confirmDelete && selectedExistingId !== '__new__' && (
+                  <DeleteConfirmBox>
+                    <DeleteConfirmText>
+                      Tem certeza que deseja excluir <strong>{projectTitle}</strong>? Isso removerá
+                      o projeto de <code>projects.json</code>, dos 3 arquivos de idioma e apagará a
+                      imagem local (se não estiver em uso por outro projeto).
+                    </DeleteConfirmText>
+                    <DeleteConfirmActions>
+                      <DangerSolidButton
+                        type="button"
+                        disabled={saving}
+                        onClick={handleDeleteProject}
+                      >
+                        <Trash2 size={15} />
+                        {saving ? 'Excluindo...' : 'Confirmar Exclusão'}
+                      </DangerSolidButton>
+                      <SecondaryButton
+                        type="button"
+                        disabled={saving}
+                        onClick={() => setConfirmDelete(false)}
+                      >
+                        Cancelar
+                      </SecondaryButton>
+                    </DeleteConfirmActions>
+                  </DeleteConfirmBox>
+                )}
+
                 {errorMessage && <ErrorBanner>{errorMessage}</ErrorBanner>}
 
                 <ModalFooter>
-                  <PrimarySubmitButton type="submit" disabled={saving}>
-                    <Save size={16} />
-                    {saving ? 'Salvando...' : 'Salvar Projeto'}
-                  </PrimarySubmitButton>
+                  {selectedExistingId !== '__new__' && !confirmDelete && (
+                    <DangerOutlineButton
+                      type="button"
+                      disabled={saving}
+                      onClick={() => setConfirmDelete(true)}
+                    >
+                      <Trash2 size={16} />
+                      Excluir Projeto
+                    </DangerOutlineButton>
+                  )}
+
+                  <ModalFooterRight>
+                    <PrimarySubmitButton type="submit" disabled={saving}>
+                      <Save size={16} />
+                      {saving ? 'Salvando...' : 'Salvar Projeto'}
+                    </PrimarySubmitButton>
+                  </ModalFooterRight>
                 </ModalFooter>
               </ModalBody>
             ) : (
@@ -892,10 +985,12 @@ export const DevCms: React.FC = () => {
                 {errorMessage && <ErrorBanner>{errorMessage}</ErrorBanner>}
 
                 <ModalFooter>
-                  <PrimarySubmitButton type="submit" disabled={saving}>
-                    <Save size={16} />
-                    {saving ? 'Salvando...' : 'Salvar Alterações nos 3 Idiomas'}
-                  </PrimarySubmitButton>
+                  <ModalFooterRight>
+                    <PrimarySubmitButton type="submit" disabled={saving}>
+                      <Save size={16} />
+                      {saving ? 'Salvando...' : 'Salvar Alterações nos 3 Idiomas'}
+                    </PrimarySubmitButton>
+                  </ModalFooterRight>
                 </ModalFooter>
               </ModalBody>
             )}
