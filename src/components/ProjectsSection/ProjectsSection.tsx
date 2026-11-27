@@ -1,6 +1,6 @@
 import React from 'react';
 import { PROJECTS_DATA } from '../../data/projects';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '../../contexts/useLanguage';
 import { ProjectCard } from '../ProjectCard/ProjectCard';
 import {
   ProjectsContainer,

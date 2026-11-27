@@ -87,6 +87,11 @@
         "id": "ts",
         "alt": "TypeScript",
         "src": "https://skillicons.dev/icons?i=ts"
+      },
+      {
+        "id": "css",
+        "alt": "css",
+        "src": "https://skillicons.dev/icons?i=css"
       }
     ]
   },
@@ -105,6 +110,11 @@
         "id": "ts",
         "alt": "TypeScript",
         "src": "https://skillicons.dev/icons?i=ts"
+      },
+      {
+        "id": "css",
+        "alt": "css",
+        "src": "https://skillicons.dev/icons?i=css"
       }
     ]
   },
@@ -128,6 +138,11 @@
         "id": "bash",
         "alt": "Bash",
         "src": "https://skillicons.dev/icons?i=bash"
+      },
+      {
+        "id": "css",
+        "alt": "css",
+        "src": "https://skillicons.dev/icons?i=css"
       }
     ]
   }

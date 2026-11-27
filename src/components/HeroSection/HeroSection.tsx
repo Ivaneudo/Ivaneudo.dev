@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { STACKS_DATA } from '../../data/stacks';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '../../contexts/useLanguage';
 import {
   AvatarFallback,
   AvatarFrame,

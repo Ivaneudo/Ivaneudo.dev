@@ -1,7 +1,7 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
 import type { ProjectItem } from '../../data/projects';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '../../contexts/useLanguage';
 import {
   ActionLinks,
   CardArticle,
@@ -22,9 +22,9 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const { t } = useLanguage();
-  const translated = t.projects[project.id];
+  const translated = t?.projects?.[project.id];
 
-  if (!project.image) {
+  if (!project.image || !translated) {
     return null;
   }
 
