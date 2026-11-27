@@ -117,7 +117,6 @@ function devPortfolioCmsPlugin(): Plugin {
 
           fs.writeFileSync(projectsJsonPath, JSON.stringify(currentProjects, null, 2) + '\n', 'utf-8');
 
-          // 👇 AQUI (sucesso ao salvar projeto)
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ ok: true, project: newEntry }));
@@ -128,7 +127,71 @@ function devPortfolioCmsPlugin(): Plugin {
         }
       });
 
-      // Rota 2: Atualizar textos gerais
+      // Rota 2: Excluir projeto (JSON + traduções + imagem local órfã)
+      server.middlewares.use('/__dev-cms/delete-project', async (req, res, next) => {
+        if (req.method !== 'POST') return next();
+
+        try {
+          const body = (await readJsonBody(req)) as { id?: string };
+          const cleanId = (body.id || '').trim().replace(/[^a-zA-Z0-9_-]/g, '');
+
+          if (!cleanId) {
+            res.statusCode = 400;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'ID do projeto inválido.' }));
+            return;
+          }
+
+          const currentProjects = JSON.parse(fs.readFileSync(projectsJsonPath, 'utf-8')) as Array<{
+            id: string;
+            image?: string;
+          }>;
+
+          const targetProject = currentProjects.find((p) => p.id === cleanId);
+          if (!targetProject) {
+            res.statusCode = 404;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'Projeto não encontrado.' }));
+            return;
+          }
+
+          const updatedProjects = currentProjects.filter((p) => p.id !== cleanId);
+          fs.writeFileSync(projectsJsonPath, JSON.stringify(updatedProjects, null, 2) + '\n', 'utf-8');
+
+          const langs = ['pt', 'en', 'es'] as const;
+          for (const lang of langs) {
+            const filePath = path.resolve(i18nDir, `${lang}.json`);
+            const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            if (jsonData.projects && cleanId in jsonData.projects) {
+              delete jsonData.projects[cleanId];
+              fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2) + '\n', 'utf-8');
+            }
+          }
+
+          if (targetProject.image && targetProject.image.startsWith('/images/projects/')) {
+            const stillUsed = updatedProjects.some((p) => p.image === targetProject.image);
+            if (!stillUsed) {
+              const localFilePath = path.resolve(
+                projectsImgDir,
+                path.basename(targetProject.image)
+              );
+              if (fs.existsSync(localFilePath)) {
+                fs.unlinkSync(localFilePath);
+              }
+            }
+          }
+
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ ok: true, deletedId: cleanId }));
+        } catch (error) {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ error: String(error) }));
+        }
+      });
+
+      // Rota 3: Atualizar textos gerais
       server.middlewares.use('/__dev-cms/texts', async (req, res, next) => {
         if (req.method !== 'POST') return next();
 
@@ -147,7 +210,6 @@ function devPortfolioCmsPlugin(): Plugin {
             );
           }
 
-          // 👇 E AQUI (sucesso ao salvar textos)
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ ok: true }));
