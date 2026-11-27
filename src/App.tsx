@@ -10,6 +10,14 @@ import { ProjectsSection } from './components/ProjectsSection/ProjectsSection';
 import { AboutSection } from './components/AboutSection/AboutSection';
 import { Footer } from './components/Footer/Footer';
 
+const DevCms = import.meta.env.DEV
+  ? React.lazy(() =>
+      import('./components/DevCms/DevCms').then((module) => ({
+        default: module.DevCms,
+      }))
+    )
+  : null;
+
 export const App: React.FC = () => {
   return (
     <ThemeContextProvider>
@@ -23,6 +31,11 @@ export const App: React.FC = () => {
           <AboutSection />
         </main>
         <Footer />
+        {import.meta.env.DEV && DevCms && (
+          <React.Suspense fallback={null}>
+            <DevCms />
+          </React.Suspense>
+        )}
       </LanguageProvider>
     </ThemeContextProvider>
   );
