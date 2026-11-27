@@ -1,4 +1,16 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+
+const slideUpFade = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const FloatingDevButton = styled.button`
   position: fixed;
@@ -21,6 +33,67 @@ export const FloatingDevButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
     transform: translateY(-2px);
+  }
+`;
+
+export const ToastContainer = styled.div`
+  position: fixed;
+  right: 24px;
+  bottom: 84px;
+  z-index: 90;
+  max-width: min(380px, calc(100vw - 32px));
+  padding: 14px 16px;
+  border-radius: 14px;
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: ${({ theme }) => theme.colors.shadowHover};
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: ${slideUpFade} 0.25s ease-out;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    right: 16px;
+    bottom: 80px;
+  }
+`;
+
+export const ToastIconBadge = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+
+export const ToastMessage = styled.p`
+  font-family: ${({ theme }) => theme.fonts.arial};
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: ${({ theme }) => theme.colors.text};
+  flex: 1;
+`;
+
+export const ToastCloseButton = styled.button`
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  color: ${({ theme }) => theme.colors.textMuted};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.codeBg};
   }
 `;
 
@@ -327,18 +400,14 @@ export const CheckboxLabel = styled.label`
   cursor: pointer;
 `;
 
-export const FeedbackBanner = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant: 'success' | 'error' }>`
+export const ErrorBanner = styled.div`
   padding: 12px 16px;
   border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
-  background-color: ${({ variant }) =>
-    variant === 'success' ? 'rgba(16, 185, 129, 0.14)' : 'rgba(201, 0, 0, 0.14)'};
-  color: ${({ variant }) => (variant === 'success' ? '#10b981' : '#ef4444')};
-  border: 1px solid
-    ${({ variant }) => (variant === 'success' ? 'rgba(16, 185, 129, 0.35)' : 'rgba(201, 0, 0, 0.35)')};
+  background-color: rgba(201, 0, 0, 0.14);
+  color: #ef4444;
+  border: 1px solid rgba(201, 0, 0, 0.35);
 `;
 
 export const ModalFooter = styled.div`

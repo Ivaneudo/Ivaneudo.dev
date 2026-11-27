@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { FolderPlus, Home, Save, Type, Upload, User, Wrench, X } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Check, FolderPlus, Home, Save, Type, Upload, User, Wrench, X } from 'lucide-react';
 import ptJson from '../../i18n/pt.json';
 import enJson from '../../i18n/en.json';
 import esJson from '../../i18n/es.json';
 import { PROJECTS_DATA } from '../../data/projects';
-import type { StackItem } from '../../data/stacks';
+import { STACKS_DATA, type StackItem } from '../../data/stacks';
 import {
   CheckboxLabel,
   CloseButton,
   CustomStackRow,
   DevBadge,
-  FeedbackBanner,
+  ErrorBanner,
   FieldGroupGrid,
   FieldWrapper,
   FileInputLabel,
@@ -36,10 +36,16 @@ import {
   StackChip,
   StacksPickerGrid,
   Textarea,
+  ToastCloseButton,
+  ToastContainer,
+  ToastIconBadge,
+  ToastMessage,
 } from './DevCms.styles';
 
 type SectorType = 'project' | 'home' | 'projectsTitle' | 'about';
 type LangKey = 'pt' | 'en' | 'es';
+
+const CUSTOM_STACKS_STORAGE_KEY = '@ivaneudo-portfolio:dev-cms-stacks';
 
 const AVAILABLE_STACKS: StackItem[] = [
   { id: 'react', alt: 'React', src: 'https://skillicons.dev/icons?i=react' },
@@ -81,10 +87,8 @@ export const DevCms: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [sector, setSector] = useState<SectorType>('project');
   const [saving, setSaving] = useState(false);
-  const [feedback, setFeedback] = useState<{
-    variant: 'success' | 'error';
-    message: string;
-  } | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Estado do setor de Projeto
   const [selectedExistingId, setSelectedExistingId] = useState<string>('__new__');
@@ -99,6 +103,14 @@ export const DevCms: React.FC = () => {
   const [githubUrl, setGithubUrl] = useState('');
   const [selectedStacks, setSelectedStacks] = useState<StackItem[]>([]);
   const [customStackId, setCustomStackId] = useState('');
+  const [customHistoryStacks, setCustomHistoryStacks] = useState<StackItem[]>(() => {
+    try {
+      const saved = localStorage.getItem(CUSTOM_STACKS_STORAGE_KEY);
+      return saved ? (JSON.parse(saved) as StackItem[]) : [];
+    } catch {
+      return [];
+    }
+  });
   const [insertAtTop, setInsertAtTop] = useState(true);
   const [projTranslations, setProjTranslations] = useState({
     pt: { alt: '', summary: '' },
@@ -106,13 +118,51 @@ export const DevCms: React.FC = () => {
     es: { alt: '', summary: '' },
   });
 
+  // Lista unificada e sem duplicatas para o histórico rápido de stacks
+  const quickStacks = useMemo(() => {
+    const stacksMap = new Map<string, StackItem>();
+
+    const registerStack = (stack: StackItem) => {
+      const key = stack.id.toLowerCase();
+      if (!stacksMap.has(key)) {
+        stacksMap.set(key, stack);
+      }
+    };
+
+    AVAILABLE_STACKS.forEach(registerStack);
+    STACKS_DATA.forEach(registerStack);
+    PROJECTS_DATA.forEach((project) => {
+      (project.stacks ?? []).forEach(registerStack);
+    });
+    customHistoryStacks.forEach(registerStack);
+    selectedStacks.forEach(registerStack);
+
+    return Array.from(stacksMap.values());
+  }, [customHistoryStacks, selectedStacks]);
+
   // Estado dos setores de Textos Gerais (3 idiomas)
-  const [textsState, setTextsState] = useState({
-    pt: structuredClone(ptJson),
-    en: structuredClone(enJson),
-    es: structuredClone(esJson),
-  });
+  const [textsState, setTextsState] = useState(() => ({
+    pt: JSON.parse(JSON.stringify(ptJson)) as typeof ptJson,
+    en: JSON.parse(JSON.stringify(enJson)) as typeof enJson,
+    es: JSON.parse(JSON.stringify(esJson)) as typeof esJson,
+  }));
   const [activeAboutLang, setActiveAboutLang] = useState<LangKey>('pt');
+
+  useEffect(() => {
+    setTextsState({
+      pt: JSON.parse(JSON.stringify(ptJson)) as typeof ptJson,
+      en: JSON.parse(JSON.stringify(enJson)) as typeof enJson,
+      es: JSON.parse(JSON.stringify(esJson)) as typeof esJson,
+    });
+  }, [ptJson, enJson, esJson]);
+
+  useEffect(() => {
+    if (!toastMessage) return;
+    const timer = window.setTimeout(() => {
+      setToastMessage(null);
+    }, 4500);
+    return () => window.clearTimeout(timer);
+  }, [toastMessage]);
 
   const resetProjectForm = () => {
     setSelectedExistingId('__new__');
@@ -133,7 +183,7 @@ export const DevCms: React.FC = () => {
   };
 
   const handleSelectProjectTarget = (targetId: string) => {
-    setFeedback(null);
+    setErrorMessage(null);
     if (targetId === '__new__') {
       resetProjectForm();
       return;
@@ -150,11 +200,11 @@ export const DevCms: React.FC = () => {
     setImageUpload(null);
     setLiveUrl(found.liveUrl || '');
     setGithubUrl(found.githubUrl || '');
-    setSelectedStacks(found.stacks);
+    setSelectedStacks(found.stacks ?? []);
     setProjTranslations({
-      pt: { ...textsState.pt.projects[found.id] },
-      en: { ...textsState.en.projects[found.id] },
-      es: { ...textsState.es.projects[found.id] },
+      pt: { ...(textsState.pt.projects?.[found.id] ?? { alt: '', summary: '' }) },
+      en: { ...(textsState.en.projects?.[found.id] ?? { alt: '', summary: '' }) },
+      es: { ...(textsState.es.projects?.[found.id] ?? { alt: '', summary: '' }) },
     });
   };
 
@@ -179,9 +229,10 @@ export const DevCms: React.FC = () => {
   };
 
   const toggleStack = (stack: StackItem) => {
+    const targetKey = stack.id.toLowerCase();
     setSelectedStacks((prev) =>
-      prev.some((s) => s.id === stack.id)
-        ? prev.filter((s) => s.id !== stack.id)
+      prev.some((s) => s.id.toLowerCase() === targetKey)
+        ? prev.filter((s) => s.id.toLowerCase() !== targetKey)
         : [...prev, stack]
     );
   };
@@ -189,35 +240,47 @@ export const DevCms: React.FC = () => {
   const handleAddCustomStack = () => {
     const clean = customStackId.trim().toLowerCase();
     if (!clean) return;
-    if (!selectedStacks.some((s) => s.id === clean)) {
-      setSelectedStacks((prev) => [
-        ...prev,
-        {
-          id: clean,
-          alt: clean,
-          src: `https://skillicons.dev/icons?i=${clean}`,
-        },
-      ]);
+
+    const existing = quickStacks.find((s) => s.id.toLowerCase() === clean);
+    const stackToAdd: StackItem = existing ?? {
+      id: clean,
+      alt: clean,
+      src: `https://skillicons.dev/icons?i=${clean}`,
+    };
+
+    if (!selectedStacks.some((s) => s.id.toLowerCase() === clean)) {
+      setSelectedStacks((prev) => [...prev, stackToAdd]);
     }
+
+    if (!existing) {
+      setCustomHistoryStacks((prev) => {
+        if (prev.some((s) => s.id.toLowerCase() === clean)) return prev;
+        const updated = [...prev, stackToAdd];
+        try {
+          localStorage.setItem(CUSTOM_STACKS_STORAGE_KEY, JSON.stringify(updated));
+        } catch {
+          // Ignora erro de quota no localStorage
+        }
+        return updated;
+      });
+    }
+
     setCustomStackId('');
   };
 
   const handleSaveProject = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFeedback(null);
+    setErrorMessage(null);
 
     if (!projectId.trim() || !projectTitle.trim()) {
-      setFeedback({ variant: 'error', message: 'Preencha o ID e o Título do projeto.' });
+      setErrorMessage('Preencha o ID e o Título do projeto.');
       return;
     }
 
     const langs: LangKey[] = ['pt', 'en', 'es'];
     for (const lang of langs) {
       if (!projTranslations[lang].alt.trim() || !projTranslations[lang].summary.trim()) {
-        setFeedback({
-          variant: 'error',
-          message: `Preencha os campos "alt" e "descrição" em ${lang.toUpperCase()}.`,
-        });
+        setErrorMessage(`Preencha os campos "alt" e "descrição" em ${lang.toUpperCase()}.`);
         return;
       }
     }
@@ -243,15 +306,16 @@ export const DevCms: React.FC = () => {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Erro ao salvar projeto.');
 
-      setFeedback({
-        variant: 'success',
-        message: 'Projeto salvo com sucesso nos arquivos JSON e na pasta public/images/projects!',
-      });
-      if (selectedExistingId === '__new__') {
+      const isNew = selectedExistingId === '__new__';
+      if (isNew) {
         resetProjectForm();
       }
+      setIsOpen(false);
+      setToastMessage(
+        isNew ? 'Projeto adicionado e salvo com sucesso!' : 'Alterações do projeto salvas!'
+      );
     } catch (err) {
-      setFeedback({ variant: 'error', message: String(err) });
+      setErrorMessage(String(err));
     } finally {
       setSaving(false);
     }
@@ -259,7 +323,7 @@ export const DevCms: React.FC = () => {
 
   const handleSaveTexts = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFeedback(null);
+    setErrorMessage(null);
     setSaving(true);
 
     try {
@@ -272,12 +336,10 @@ export const DevCms: React.FC = () => {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Erro ao atualizar textos.');
 
-      setFeedback({
-        variant: 'success',
-        message: 'Textos atualizados nos arquivos pt.json, en.json e es.json!',
-      });
+      setIsOpen(false);
+      setToastMessage('Alterações salvas nos 3 idiomas (PT, EN e ES)!');
     } catch (err) {
-      setFeedback({ variant: 'error', message: String(err) });
+      setErrorMessage(String(err));
     } finally {
       setSaving(false);
     }
@@ -326,10 +388,32 @@ export const DevCms: React.FC = () => {
 
   return (
     <>
-      <FloatingDevButton type="button" onClick={() => setIsOpen(true)}>
+      <FloatingDevButton
+        type="button"
+        onClick={() => {
+          setErrorMessage(null);
+          setIsOpen(true);
+        }}
+      >
         <Wrench size={16} />
         Dev CMS
       </FloatingDevButton>
+
+      {toastMessage && (
+        <ToastContainer role="status" aria-live="polite">
+          <ToastIconBadge>
+            <Check size={16} />
+          </ToastIconBadge>
+          <ToastMessage>{toastMessage}</ToastMessage>
+          <ToastCloseButton
+            type="button"
+            onClick={() => setToastMessage(null)}
+            aria-label="Fechar notificação"
+          >
+            <X size={14} />
+          </ToastCloseButton>
+        </ToastContainer>
+      )}
 
       {isOpen && (
         <ModalBackdrop onClick={() => setIsOpen(false)}>
@@ -349,7 +433,7 @@ export const DevCms: React.FC = () => {
                 active={sector === 'project'}
                 onClick={() => {
                   setSector('project');
-                  setFeedback(null);
+                  setErrorMessage(null);
                 }}
               >
                 <FolderPlus size={15} />
@@ -361,7 +445,7 @@ export const DevCms: React.FC = () => {
                 active={sector === 'home'}
                 onClick={() => {
                   setSector('home');
-                  setFeedback(null);
+                  setErrorMessage(null);
                 }}
               >
                 <Home size={15} />
@@ -373,7 +457,7 @@ export const DevCms: React.FC = () => {
                 active={sector === 'projectsTitle'}
                 onClick={() => {
                   setSector('projectsTitle');
-                  setFeedback(null);
+                  setErrorMessage(null);
                 }}
               >
                 <Type size={15} />
@@ -385,7 +469,7 @@ export const DevCms: React.FC = () => {
                 active={sector === 'about'}
                 onClick={() => {
                   setSector('about');
-                  setFeedback(null);
+                  setErrorMessage(null);
                 }}
               >
                 <User size={15} />
@@ -482,11 +566,13 @@ export const DevCms: React.FC = () => {
                 <FieldWrapper>
                   <Label>Stacks utilizadas (selecione ou adicione por ID do skillicons.dev)</Label>
                   <StacksPickerGrid>
-                    {AVAILABLE_STACKS.map((stack) => (
+                    {quickStacks.map((stack) => (
                       <StackChip
                         key={stack.id}
                         type="button"
-                        selected={selectedStacks.some((s) => s.id === stack.id)}
+                        selected={selectedStacks.some(
+                          (s) => s.id.toLowerCase() === stack.id.toLowerCase()
+                        )}
                         onClick={() => toggleStack(stack)}
                       >
                         <img src={stack.src} alt={stack.alt} />
@@ -500,6 +586,12 @@ export const DevCms: React.FC = () => {
                       style={{ maxWidth: 240 }}
                       value={customStackId}
                       onChange={(e) => setCustomStackId(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleAddCustomStack();
+                        }
+                      }}
                       placeholder="Outro ID skillicons (ex: python)"
                     />
                     <SectorTabButton type="button" active={false} onClick={handleAddCustomStack}>
@@ -562,9 +654,7 @@ export const DevCms: React.FC = () => {
                   </LangGrid>
                 </FieldWrapper>
 
-                {feedback && (
-                  <FeedbackBanner variant={feedback.variant}>{feedback.message}</FeedbackBanner>
-                )}
+                {errorMessage && <ErrorBanner>{errorMessage}</ErrorBanner>}
 
                 <ModalFooter>
                   <PrimarySubmitButton type="submit" disabled={saving}>
@@ -799,9 +889,7 @@ export const DevCms: React.FC = () => {
                   </>
                 )}
 
-                {feedback && (
-                  <FeedbackBanner variant={feedback.variant}>{feedback.message}</FeedbackBanner>
-                )}
+                {errorMessage && <ErrorBanner>{errorMessage}</ErrorBanner>}
 
                 <ModalFooter>
                   <PrimarySubmitButton type="submit" disabled={saving}>

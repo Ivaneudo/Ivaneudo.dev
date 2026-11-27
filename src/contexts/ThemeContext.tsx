@@ -1,17 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { darkTheme, lightTheme } from '../styles/GlobalTheme';
-
-type ThemeMode = 'light' | 'dark';
-
-interface ThemeContextData {
-  themeMode: ThemeMode;
-  toggleTheme: () => void;
-}
+import { ThemeContext, type ThemeMode } from './useThemeMode';
 
 const STORAGE_KEY = '@ivaneudo-portfolio:theme';
-
-const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData);
 
 export const ThemeContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
@@ -56,5 +48,3 @@ export const ThemeContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
     </ThemeContext.Provider>
   );
 };
-
-export const useThemeMode = () => useContext(ThemeContext);

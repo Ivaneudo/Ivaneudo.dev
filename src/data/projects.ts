@@ -1,6 +1,6 @@
 import type { StackItem } from './stacks';
-import type { TranslationSchema } from '../contexts/LanguageContext';
 import projectsJson from './projects.json';
+import type { TranslationSchema } from '../contexts/useLanguage';
 
 export type ProjectTranslationKey = Exclude<keyof TranslationSchema['projects'], 'title'>;
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Menu, Moon, Sun, X } from 'lucide-react';
-import { useLanguage, type LanguageCode } from '../../contexts/LanguageContext';
-import { useThemeMode } from '../../contexts/ThemeContext';
+import { useLanguage, type LanguageCode } from '../../contexts/useLanguage';
+import { useThemeMode } from '../../contexts/useThemeMode';
 import {
   BrandHighlight,
   BrandLink,

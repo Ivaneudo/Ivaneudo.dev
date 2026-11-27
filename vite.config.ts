@@ -29,6 +29,7 @@ function devPortfolioCmsPlugin(): Plugin {
       const projectsJsonPath = path.resolve(rootDir, 'src/data/projects.json');
       const projectsImgDir = path.resolve(rootDir, 'public/images/projects');
 
+      // Rota 1: Criar ou editar projeto
       server.middlewares.use('/__dev-cms/project', async (req, res, next) => {
         if (req.method !== 'POST') return next();
 
@@ -52,6 +53,7 @@ function devPortfolioCmsPlugin(): Plugin {
           const cleanId = body.id.trim().replace(/[^a-zA-Z0-9_-]/g, '');
           if (!cleanId || !body.title?.trim()) {
             res.statusCode = 400;
+            res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ error: 'ID e Título são obrigatórios.' }));
             return;
           }
@@ -64,6 +66,7 @@ function devPortfolioCmsPlugin(): Plugin {
             );
             if (!match) {
               res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
               res.end(JSON.stringify({ error: 'Formato de imagem inválido.' }));
               return;
             }
@@ -82,6 +85,7 @@ function devPortfolioCmsPlugin(): Plugin {
           for (const lang of langs) {
             const filePath = path.resolve(i18nDir, `${lang}.json`);
             const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            jsonData.projects = jsonData.projects || {};
             jsonData.projects[cleanId] = {
               alt: body.translations[lang].alt,
               summary: body.translations[lang].summary,
@@ -113,14 +117,18 @@ function devPortfolioCmsPlugin(): Plugin {
 
           fs.writeFileSync(projectsJsonPath, JSON.stringify(currentProjects, null, 2) + '\n', 'utf-8');
 
+          // 👇 AQUI (sucesso ao salvar projeto)
+          res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ ok: true, project: newEntry }));
         } catch (error) {
           res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ error: String(error) }));
         }
       });
 
+      // Rota 2: Atualizar textos gerais
       server.middlewares.use('/__dev-cms/texts', async (req, res, next) => {
         if (req.method !== 'POST') return next();
 
@@ -139,10 +147,13 @@ function devPortfolioCmsPlugin(): Plugin {
             );
           }
 
+          // 👇 E AQUI (sucesso ao salvar textos)
+          res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ ok: true }));
         } catch (error) {
           res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ error: String(error) }));
         }
       });

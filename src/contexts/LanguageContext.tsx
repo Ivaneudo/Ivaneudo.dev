@@ -1,16 +1,12 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import pt from '../i18n/pt.json';
 import en from '../i18n/en.json';
 import es from '../i18n/es.json';
-
-export type LanguageCode = 'pt' | 'en' | 'es';
-export type TranslationSchema = typeof pt;
-
-interface LanguageContextData {
-  language: LanguageCode;
-  setLanguage: (lang: LanguageCode) => void;
-  t: TranslationSchema;
-}
+import {
+  LanguageContext,
+  type LanguageCode,
+  type TranslationSchema,
+} from './useLanguage';
 
 const STORAGE_KEY = '@ivaneudo-portfolio:lang';
 
@@ -19,8 +15,6 @@ const TRANSLATIONS: Record<LanguageCode, TranslationSchema> = {
   en,
   es,
 };
-
-const LanguageContext = createContext<LanguageContextData>({} as LanguageContextData);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<LanguageCode>(() => {
@@ -51,5 +45,3 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     </LanguageContext.Provider>
   );
 };
-
-export const useLanguage = () => useContext(LanguageContext);
