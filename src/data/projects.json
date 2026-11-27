@@ -27,8 +27,8 @@
     "id": "raizes",
     "title": "Movimento Vera Criança",
     "image": "/images/projects/raizes.png",
-    "liveUrl": "https://movimentoveracrianca.org.br",
-    "githubUrl": "https://github.com/Ivaneudo",
+    "liveUrl": "https://movimentoveracrianca.vercel.app/",
+    "githubUrl": "https://github.com/veracrianca/movimento",
     "stacks": [
       {
         "id": "react",
@@ -51,8 +51,8 @@
     "id": "ivaneandome",
     "title": "Ivaneando.me",
     "image": "/images/projects/ivaneandome.png",
-    "liveUrl": "https://ivaneando.me",
-    "githubUrl": "https://github.com/Ivaneudo",
+    "liveUrl": "https://ivaneandome.vercel.app",
+    "githubUrl": "https://github.com/Ivaneudo/Ivaneando.me",
     "stacks": [
       {
         "id": "react",
@@ -75,7 +75,8 @@
     "id": "limpo",
     "title": "Limpo Serviços",
     "image": "/images/projects/limpo.png",
-    "githubUrl": "https://github.com/Ivaneudo",
+    "liveUrl": "https://limpo.vercel.app/",
+    "githubUrl": "https://github.com/Ivaneudo/Limpo",
     "stacks": [
       {
         "id": "angular",
@@ -93,7 +94,7 @@
     "id": "ficaComigo",
     "title": "Fica Comigo",
     "image": "/images/projects/fica-comigo.png",
-    "githubUrl": "https://github.com/Ivaneudo",
+    "githubUrl": "https://github.com/Ivaneudo/fica-comigo",
     "stacks": [
       {
         "id": "react",
@@ -101,14 +102,9 @@
         "src": "https://skillicons.dev/icons?i=react"
       },
       {
-        "id": "spring",
-        "alt": "Spring Boot",
-        "src": "https://skillicons.dev/icons?i=spring"
-      },
-      {
-        "id": "postgres",
-        "alt": "PostgreSQL",
-        "src": "https://skillicons.dev/icons?i=postgres"
+        "id": "ts",
+        "alt": "TypeScript",
+        "src": "https://skillicons.dev/icons?i=ts"
       }
     ]
   },
@@ -116,7 +112,7 @@
     "id": "arch",
     "title": "Arch Linux & Hyprland Dotfiles",
     "image": "/images/projects/arch.png",
-    "githubUrl": "https://github.com/Ivaneudo",
+    "githubUrl": "https://github.com/Ivaneudo/Arch-Hyprland",
     "stacks": [
       {
         "id": "arch",
